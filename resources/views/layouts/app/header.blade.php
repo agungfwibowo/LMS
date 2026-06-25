@@ -41,7 +41,13 @@
                 </flux:tooltip>
             </flux:navbar>
 
-            <x-desktop-user-menu />
+            @auth
+                <x-desktop-user-menu />
+            @else
+                <flux:button :href="route('login')" wire:navigate>
+                    Login
+                </flux:button>
+            @endauth
         </flux:header>
 
         <!-- Mobile Menu -->
