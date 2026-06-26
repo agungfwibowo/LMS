@@ -23,32 +23,30 @@
     --color-zinc-900: var(--color-slate-900);
     --color-zinc-950: var(--color-slate-950);
     
-    --color-accent: var(--color-emerald-500);
-    --color-accent-content: var(--color-emerald-600);
+    --color-accent: var(--color-teal-600);
+    --color-accent-content: var(--color-teal-700);
     --color-accent-foreground: var(--color-white);
 
     /*
-     * SIPAHAM brand palette (hijau medis).
-     * Ganti palet cukup dari sini: arahkan brand-* ke skala warna lain
-     * (mis. teal-*, sky-*) atau samakan dengan warna logo final.
+     * SIPAHAM brand palette — teal sesuai warna logo.
      */
-    --color-brand-50: var(--color-emerald-50);
-    --color-brand-100: var(--color-emerald-100);
-    --color-brand-200: var(--color-emerald-200);
-    --color-brand-300: var(--color-emerald-300);
-    --color-brand-400: var(--color-emerald-400);
-    --color-brand-500: var(--color-emerald-500);
-    --color-brand-600: var(--color-emerald-600);
-    --color-brand-700: var(--color-emerald-700);
-    --color-brand-800: var(--color-emerald-800);
-    --color-brand-900: var(--color-emerald-900);
-    --color-brand-950: var(--color-emerald-950);
+    --color-brand-50: var(--color-teal-50);
+    --color-brand-100: var(--color-teal-100);
+    --color-brand-200: var(--color-teal-200);
+    --color-brand-300: var(--color-teal-300);
+    --color-brand-400: var(--color-teal-400);
+    --color-brand-500: var(--color-teal-500);
+    --color-brand-600: var(--color-teal-600);
+    --color-brand-700: var(--color-teal-700);
+    --color-brand-800: var(--color-teal-800);
+    --color-brand-900: var(--color-teal-900);
+    --color-brand-950: var(--color-teal-950);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-emerald-500);
-        --color-accent-content: var(--color-emerald-400);
+        --color-accent: var(--color-teal-500);
+        --color-accent-content: var(--color-teal-400);
         --color-accent-foreground: var(--color-white);
     }
 }

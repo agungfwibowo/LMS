@@ -23,10 +23,11 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $remember_token
+ * @property string $appearance
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'appearance'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -56,5 +57,21 @@ class User extends Authenticatable
         return Str::length($initials) > 1
             ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
             : $initials;
+    }
+
+    public function getInitialsAttribute(): string
+    {
+        $names = preg_split('/\s+/', trim($this->name));
+
+        if (count($names) === 1) {
+            // Contoh: Suhendri -> SU
+            return strtoupper(substr($names[0], 0, 2));
+        }
+
+        // Contoh: Agung Fitrah Wibowo -> AF
+        return strtoupper(
+            substr($names[0], 0, 1).
+            substr($names[1], 0, 1)
+        );
     }
 }

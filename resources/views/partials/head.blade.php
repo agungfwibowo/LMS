@@ -12,4 +12,16 @@
 @fonts
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
+@auth
+<script>
+    (function () {
+        var pref = @js(auth()->user()->appearance ?? 'system');
+        if (pref === 'system') {
+            window.localStorage.removeItem('flux.appearance');
+        } else {
+            window.localStorage.setItem('flux.appearance', pref);
+        }
+    })();
+</script>
+@endauth
 @fluxAppearance

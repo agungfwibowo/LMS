@@ -28,6 +28,14 @@
         ['icon' => 'newspaper',   'category' => 'Berita',     'date' => '15 Jun 2026', 'title' => 'Integrasi Sertifikat SIPAHAM dengan SISDMK', 'excerpt' => 'Seluruh sertifikat digital kini tersinkron otomatis ke sistem SISDMK Kemenkes.'],
         ['icon' => 'trophy',      'category' => 'Prestasi',   'date' => '10 Jun 2026', 'title' => 'RSUP H. Adam Malik Raih Predikat Diklat Terbaik', 'excerpt' => 'Capaian kompetensi SDM meningkat 32% sepanjang semester pertama 2026.'],
     ];
+
+    $faqs = [
+        ['question' => 'Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?', 'answer' => 'Seluruh tenaga kesehatan dan non-kesehatan RSUP H. Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.'],
+        ['question' => 'Bagaimana cara mendaftar pelatihan?', 'answer' => 'Buat akun terlebih dahulu, lengkapi data kepegawaian, lalu pilih pelatihan pada katalog dan daftar pada sesi dengan kuota yang masih tersedia.'],
+        ['question' => 'Apakah sertifikat yang diterbitkan resmi?', 'answer' => 'Ya. Sertifikat digital terbit otomatis setelah peserta menyelesaikan modul dan evaluasi, serta tersinkron langsung ke sistem SISDMK Kementerian Kesehatan.'],
+        ['question' => 'Apakah pelatihan dilakukan secara daring atau luring?', 'answer' => 'Tergantung jenis pelatihan. Sebagian modul tersedia penuh secara e-learning, sebagian lainnya menggabungkan sesi luring sesuai jadwal yang tercantum.'],
+        ['question' => 'Bagaimana manajemen memantau kompetensi SDM?', 'answer' => 'Manajemen RS memperoleh rekap kompetensi SDM secara terpusat — capaian pelatihan, sertifikasi, dan riwayat peserta dapat dipantau dari satu dasbor.'],
+    ];
 @endphp
 
 <x-layouts::guest :title="__('Beranda')">
@@ -226,22 +234,12 @@
             eyebrow="FAQ"
             title="Pertanyaan yang Sering Diajukan" />
 
-        <div class="mt-10">
-            <x-landing.faq question="Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?">
-                Seluruh tenaga kesehatan dan non-kesehatan RSUP H. Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.
-            </x-landing.faq>
-            <x-landing.faq question="Bagaimana cara mendaftar pelatihan?">
-                Buat akun terlebih dahulu, lengkapi data kepegawaian, lalu pilih pelatihan pada katalog dan daftar pada sesi dengan kuota yang masih tersedia.
-            </x-landing.faq>
-            <x-landing.faq question="Apakah sertifikat yang diterbitkan resmi?">
-                Ya. Sertifikat digital terbit otomatis setelah peserta menyelesaikan modul dan evaluasi, serta tersinkron langsung ke sistem SISDMK Kementerian Kesehatan.
-            </x-landing.faq>
-            <x-landing.faq question="Apakah pelatihan dilakukan secara daring atau luring?">
-                Tergantung jenis pelatihan. Sebagian modul tersedia penuh secara e-learning, sebagian lainnya menggabungkan sesi luring sesuai jadwal yang tercantum.
-            </x-landing.faq>
-            <x-landing.faq question="Bagaimana manajemen memantau kompetensi SDM?">
-                Manajemen RS memperoleh rekap kompetensi SDM secara terpusat — capaian pelatihan, sertifikasi, dan riwayat peserta dapat dipantau dari satu dasbor.
-            </x-landing.faq>
+        <div class="mt-10" x-data="{ active: 1 }">
+            @foreach ($faqs as $faq)
+                <x-landing.faq :id="$loop->iteration" :question="$faq['question']">
+                    {{ $faq['answer'] }}
+                </x-landing.faq>
+            @endforeach
         </div>
     </section>
 

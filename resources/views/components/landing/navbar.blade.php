@@ -31,9 +31,29 @@
         {{-- Desktop actions --}}
         <div class="hidden items-center gap-2 lg:flex">
             @auth
-                <a href="{{ route('dashboard') }}" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700">
-                    Dashboard
-                </a>
+                <flux:dropdown>
+                    <flux:profile :initials="auth()->user()->initials" />
+                    <flux:navmenu class="max-w-[12rem]">
+                        <div class="px-2 py-1.5">
+                            <flux:text size="sm">Signed in as</flux:text>
+                            <flux:heading class="mt-1! truncate">{{ auth()->user()->email }}</flux:heading>
+                        </div>
+
+                        <flux:navmenu.separator />
+
+                        <flux:navmenu.item href="{{ route('dashboard') }}" icon="squares-2x2" class="text-zinc-800 dark:text-white">Dashboard</flux:navmenu.item>
+                        <flux:navmenu.item href="{{ route('profile.edit') }}" icon="cog-6-tooth" class="text-zinc-800 dark:text-white">Settings</flux:navmenu.item>
+
+                        <flux:navmenu.separator />
+
+                        <flux:navmenu.item href="{{ route('logout') }}" icon="arrow-right-start-on-rectangle" class="text-zinc-800 dark:text-white"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
+                    </flux:navmenu>
+                </flux:dropdown>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                    @csrf
+                </form>
             @else
                 <a href="{{ route('login') }}" class="rounded-lg px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
                     Masuk
@@ -67,7 +87,30 @@
             @endforeach
             <div class="mt-3 flex flex-col gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-800">
                 @auth
-                    <a href="{{ route('dashboard') }}" class="rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white">Dashboard</a>
+                    <flux:dropdown>
+                        <flux:profile :name="auth()->user()->name" />
+
+                        <flux:navmenu class="max-w-[12rem]">
+                            <div class="px-2 py-1.5">
+                                <flux:text size="sm">Signed in as</flux:text>
+                                <flux:heading class="mt-1! truncate">{{ auth()->user()->email }}</flux:heading>
+                            </div>
+
+                            <flux:navmenu.separator />
+
+                            <flux:navmenu.item href="{{ route('dashboard') }}" icon="squares-2x2" class="text-zinc-800 dark:text-white">Dashboard</flux:navmenu.item>
+                            <flux:navmenu.item href="{{ route('profile.edit') }}" icon="cog-6-tooth" class="text-zinc-800 dark:text-white">Settings</flux:navmenu.item>
+
+                            <flux:navmenu.separator />
+
+                            <flux:navmenu.item href="{{ route('logout') }}" icon="arrow-right-start-on-rectangle" class="text-zinc-800 dark:text-white"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
+                        </flux:navmenu>
+                    </flux:dropdown>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="rounded-lg border border-zinc-300 px-4 py-2.5 text-center text-sm font-semibold text-zinc-700 dark:border-zinc-700 dark:text-zinc-200">Masuk</a>
                     @if (Route::has('register'))
