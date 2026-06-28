@@ -1,5 +1,5 @@
 @props([
-    'subtitle' => 'RSUP H. Adam Malik',
+    'subtitle' => 'RS Adam Malik',
 ])
 
 {{-- Logo lockup SIPAHAM: mark gradien + wordmark. Dipakai di navbar & footer. --}}

@@ -1,11 +1,17 @@
+@php
+    $homeUrl = route('home');
+    $isHome = request()->routeIs('home');
+    $anchor = fn(string $id) => $isHome ? "#$id" : "$homeUrl#$id";
+@endphp
+
 @props([
     'links' => [
-        ['label' => 'Beranda', 'href' => '#hero'],
-        ['label' => 'Pelatihan', 'href' => '#katalog'],
-        ['label' => 'Alur Daftar', 'href' => '#alur'],
-        ['label' => 'Jadwal', 'href' => '#jadwal'],
-        ['label' => 'Berita', 'href' => '#berita'],
-        ['label' => 'FAQ', 'href' => '#faq'],
+        ['label' => 'Beranda', 'href' => $anchor('hero')],
+        ['label' => 'Pelatihan', 'href' => $anchor('katalog')],
+        ['label' => 'Alur Daftar', 'href' => $anchor('alur')],
+        ['label' => 'Jadwal', 'href' => $anchor('jadwal')],
+        ['label' => 'Berita', 'href' => route('berita.index')],
+        ['label' => 'FAQ', 'href' => $anchor('faq')],
     ],
 ])
 
@@ -19,7 +25,7 @@
         <x-landing.brand />
 
         {{-- Desktop nav --}}
-        <div class="hidden items-center gap-1 lg:flex">
+        <div class="hidden items-center gap-1 lg:flex ms-auto">
             @foreach ($links as $link)
                 <a href="{{ $link['href'] }}"
                    class="rounded-lg px-3 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-brand-50 hover:text-brand-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-brand-400">
@@ -29,50 +35,50 @@
         </div>
 
         {{-- Desktop actions --}}
-        <div class="hidden items-center gap-2 lg:flex">
-            @auth
-                <flux:dropdown>
-                    <flux:profile :initials="auth()->user()->initials" />
-                    <flux:navmenu class="max-w-[12rem]">
-                        <div class="px-2 py-1.5">
-                            <flux:text size="sm">Signed in as</flux:text>
-                            <flux:heading class="mt-1! truncate">{{ auth()->user()->email }}</flux:heading>
-                        </div>
-
-                        <flux:navmenu.separator />
-
-                        <flux:navmenu.item href="{{ route('dashboard') }}" icon="squares-2x2" class="text-zinc-800 dark:text-white">Dashboard</flux:navmenu.item>
-                        <flux:navmenu.item href="{{ route('profile.edit') }}" icon="cog-6-tooth" class="text-zinc-800 dark:text-white">Settings</flux:navmenu.item>
-
-                        <flux:navmenu.separator />
-
-                        <flux:navmenu.item href="{{ route('logout') }}" icon="arrow-right-start-on-rectangle" class="text-zinc-800 dark:text-white"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
-                    </flux:navmenu>
-                </flux:dropdown>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                    @csrf
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="rounded-lg px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                    Masuk
-                </a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700">
-                        Daftar Pelatihan
-                    </a>
-                @endif
-            @endauth
+        <div class="items-center gap-2 flex">
+            <flux:separator class="hidden lg:block" vertical />
+            <flux:button x-data x-on:click="$flux.dark = !$flux.dark" icon="moon" variant="subtle" aria-label="Toggle dark mode" />
+            <flux:separator class="block lg:hidden" vertical />
+            <div class="hidden gap-2 lg:flex">
+                @auth
+                    <flux:dropdown>
+                        <flux:profile :initials="auth()->user()->initials" />
+                        <flux:navmenu class="max-w-[12rem]">
+                            <div class="px-2 py-1.5">
+                                <flux:text size="sm">Signed in as</flux:text>
+                                <flux:heading class="mt-1! truncate">{{ auth()->user()->email }}</flux:heading>
+                            </div>
+    
+                            <flux:navmenu.separator />
+    
+                            <flux:navmenu.item href="{{ route('dashboard') }}" icon="squares-2x2" class="text-zinc-800 dark:text-white">Dashboard</flux:navmenu.item>
+                            <flux:navmenu.item href="{{ route('profile.edit') }}" icon="cog-6-tooth" class="text-zinc-800 dark:text-white">Settings</flux:navmenu.item>
+    
+                            <flux:navmenu.separator />
+    
+                            <flux:navmenu.item href="{{ route('logout') }}" icon="arrow-right-start-on-rectangle" class="text-zinc-800 dark:text-white"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
+                        </flux:navmenu>
+                    </flux:dropdown>
+    
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                @else
+                    <!-- <flux:button href="{{ route('login') }}" variant="filled">Masuk</flux:button> -->
+                    @if (Route::has('register'))
+                        <flux:button variant="primary" href="{{ route('register') }}" variant="filled" icon:trailing="arrow-right">Daftar Sekarang</flux:button>
+                    @endif
+                @endauth
+            </div>
+            {{-- Mobile toggle --}}
+            <button type="button" @click="open = !open"
+                    class="inline-flex size-10 items-center justify-center rounded-lg text-zinc-700 hover:bg-zinc-100 lg:hidden dark:text-zinc-200 dark:hover:bg-zinc-800"
+                    :aria-expanded="open" aria-label="Buka menu">
+                <flux:icon name="bars-3" x-show="!open" class="size-6" />
+                <flux:icon name="x-mark" x-show="open" x-cloak class="size-6" />
+            </button>
         </div>
-
-        {{-- Mobile toggle --}}
-        <button type="button" @click="open = !open"
-                class="inline-flex size-10 items-center justify-center rounded-lg text-zinc-700 hover:bg-zinc-100 lg:hidden dark:text-zinc-200 dark:hover:bg-zinc-800"
-                :aria-expanded="open" aria-label="Buka menu">
-            <flux:icon name="bars-3" x-show="!open" class="size-6" />
-            <flux:icon name="x-mark" x-show="open" x-cloak class="size-6" />
-        </button>
     </nav>
 
     {{-- Mobile menu --}}
@@ -114,7 +120,7 @@
                 @else
                     <a href="{{ route('login') }}" class="rounded-lg border border-zinc-300 px-4 py-2.5 text-center text-sm font-semibold text-zinc-700 dark:border-zinc-700 dark:text-zinc-200">Masuk</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white">Daftar Pelatihan</a>
+                        <a href="{{ route('register') }}" class="rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white">Daftar Sekarang</a>
                     @endif
                 @endauth
             </div>

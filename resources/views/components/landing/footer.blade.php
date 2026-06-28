@@ -8,7 +8,7 @@
             <div class="lg:col-span-1">
                 <x-landing.brand />
                 <p class="mt-4 max-w-xs text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    Sistem Pelatihan RSUP H. Adam Malik — platform e-learning internal untuk pengembangan kompetensi tenaga kesehatan.
+                    Sistem Pelatihan RS Adam Malik — platform e-learning internal untuk pengembangan kompetensi tenaga kesehatan.
                 </p>
             </div>
 
@@ -45,7 +45,7 @@
         </div>
 
         <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-6 sm:flex-row dark:border-zinc-800">
-            <p class="text-sm text-zinc-500 dark:text-zinc-400">&copy; {{ $year }} SIPAHAM — RSUP H. Adam Malik. Hak cipta dilindungi.</p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400">&copy; {{ $year }} SIPAHAM — RS Adam Malik. Hak cipta dilindungi.</p>
             <p class="text-xs text-zinc-400 dark:text-zinc-500">Bidang Pendidikan &amp; Penelitian (Diklat)</p>
         </div>
     </div>

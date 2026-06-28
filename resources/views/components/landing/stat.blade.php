@@ -2,6 +2,7 @@
     'value' => '',
     'label' => '',
     'icon' => null,
+    'iconend' => null
 ])
 
 <div class="flex flex-col items-center text-center">
@@ -10,6 +11,8 @@
             <flux:icon name="{{ $icon }}" class="size-6" />
         </span>
     @endif
-    <dd class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">{{ $value }}</dd>
+    <dd class="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-white">
+        <div><x-landing.counter value="{{ $value }}" /> {{ $iconend }}</div>
+    </dd>
     <dt class="mt-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">{{ $label }}</dt>
 </div>

@@ -6,7 +6,7 @@
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
-                <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
+                <x-app-logo href="{{ route('dashboard') }}" wire:navigate />
                 <flux:sidebar.collapse class="lg:hidden" />
             </flux:sidebar.header>
 
@@ -16,6 +16,8 @@
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
+
+                <x-sidebar.berita-nav />
             </flux:sidebar.nav>
 
             <flux:spacer />
@@ -33,13 +35,29 @@
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
 
-        <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
+        <flux:header class="border-b border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+            {{-- Mobile: sidebar toggle --}}
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+
+            {{-- Desktop: breadcrumbs --}}
+            <div class="hidden lg:flex">
+                <x-app-breadcrumbs />
+            </div>
 
             <flux:spacer />
 
-            <flux:dropdown position="top" align="end">
+            <flux:button
+                href="{{ route('home') }}"
+                variant="ghost"
+                size="sm"
+                icon="arrow-top-right-on-square"
+                wire:navigate
+            >
+                <span class="hidden sm:inline">Lihat Situs</span>
+            </flux:button>
+
+            {{-- Mobile: user dropdown --}}
+            <flux:dropdown class="lg:hidden" position="top" align="end">
                 <flux:profile
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevron-down"

@@ -26,11 +26,11 @@
     $berita = [
         ['icon' => 'megaphone',   'category' => 'Pengumuman', 'date' => '20 Jun 2026', 'title' => 'Pembukaan Pendaftaran Pelatihan Triwulan III 2026', 'excerpt' => 'Katalog pelatihan periode Juli–September telah dibuka untuk seluruh kategori peserta.'],
         ['icon' => 'newspaper',   'category' => 'Berita',     'date' => '15 Jun 2026', 'title' => 'Integrasi Sertifikat SIPAHAM dengan SISDMK', 'excerpt' => 'Seluruh sertifikat digital kini tersinkron otomatis ke sistem SISDMK Kemenkes.'],
-        ['icon' => 'trophy',      'category' => 'Prestasi',   'date' => '10 Jun 2026', 'title' => 'RSUP H. Adam Malik Raih Predikat Diklat Terbaik', 'excerpt' => 'Capaian kompetensi SDM meningkat 32% sepanjang semester pertama 2026.'],
+        ['icon' => 'trophy',      'category' => 'Prestasi',   'date' => '10 Jun 2026', 'title' => 'RS Adam Malik Raih Predikat Diklat Terbaik', 'excerpt' => 'Capaian kompetensi SDM meningkat 32% sepanjang semester pertama 2026.'],
     ];
 
     $faqs = [
-        ['question' => 'Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?', 'answer' => 'Seluruh tenaga kesehatan dan non-kesehatan RSUP H. Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.'],
+        ['question' => 'Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?', 'answer' => 'Seluruh tenaga kesehatan dan non-kesehatan RS Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.'],
         ['question' => 'Bagaimana cara mendaftar pelatihan?', 'answer' => 'Buat akun terlebih dahulu, lengkapi data kepegawaian, lalu pilih pelatihan pada katalog dan daftar pada sesi dengan kuota yang masih tersedia.'],
         ['question' => 'Apakah sertifikat yang diterbitkan resmi?', 'answer' => 'Ya. Sertifikat digital terbit otomatis setelah peserta menyelesaikan modul dan evaluasi, serta tersinkron langsung ke sistem SISDMK Kementerian Kesehatan.'],
         ['question' => 'Apakah pelatihan dilakukan secara daring atau luring?', 'answer' => 'Tergantung jenis pelatihan. Sebagian modul tersedia penuh secara e-learning, sebagian lainnya menggabungkan sesi luring sesuai jadwal yang tercantum.'],
@@ -52,7 +52,7 @@
             <div>
                 <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-800 dark:bg-zinc-900 dark:text-brand-400">
                     <span class="flex size-2 rounded-full bg-brand-500"></span>
-                    Sistem Pelatihan RSUP H. Adam Malik
+                    Sistem Pelatihan RS Adam Malik
                 </span>
 
                 <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl dark:text-white">
@@ -100,28 +100,32 @@
                             <span>Progres</span><span>75%</span>
                         </div>
                         <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-                            <div class="h-full w-3/4 rounded-full bg-gradient-to-r from-brand-500 to-brand-700"></div>
+                            <div class="progress h-full w-3/4 rounded-full bg-linear-to-r from-brand-500 to-brand-700"></div>
                         </div>
                     </div>
 
                     <div class="mt-6 grid grid-cols-3 gap-3">
                         <div class="rounded-xl bg-zinc-50 p-3 text-center dark:bg-zinc-800/60">
-                            <p class="text-lg font-bold text-zinc-900 dark:text-white">85</p>
+                            <div class="text-lg font-bold text-zinc-900 dark:text-white">
+                                <x-landing.counter value="85"/>
+                            </div>
                             <p class="text-xs text-zinc-500 dark:text-zinc-400">Modul</p>
                         </div>
                         <div class="rounded-xl bg-zinc-50 p-3 text-center dark:bg-zinc-800/60">
-                            <p class="text-lg font-bold text-zinc-900 dark:text-white">12</p>
+                            <div class="text-lg font-bold text-zinc-900 dark:text-white">
+                                <x-landing.counter value="12"/>
+                            </div>
                             <p class="text-xs text-zinc-500 dark:text-zinc-400">Sertifikat</p>
                         </div>
                         <div class="rounded-xl bg-zinc-50 p-3 text-center dark:bg-zinc-800/60">
-                            <p class="text-lg font-bold text-zinc-900 dark:text-white">A</p>
+                            <div class="text-lg font-bold text-zinc-900 dark:text-white">A</div>
                             <p class="text-xs text-zinc-500 dark:text-zinc-400">Nilai</p>
                         </div>
                     </div>
                 </div>
 
                 {{-- badge mengambang --}}
-                <div class="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-lg sm:flex dark:border-zinc-800 dark:bg-zinc-900">
+                <div class="animate-float absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-lg sm:flex dark:border-zinc-800 dark:bg-zinc-900">
                     <span class="flex size-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"><flux:icon name="document-check" class="size-5" /></span>
                     <div>
                         <p class="text-sm font-semibold text-zinc-900 dark:text-white">Sertifikat Terbit</p>
@@ -135,10 +139,10 @@
     {{-- ================= STATISTIK ================= --}}
     <section class="border-y border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/40">
         <dl class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
-            <x-landing.stat icon="rectangle-stack" value="85+" label="Modul Pelatihan" />
-            <x-landing.stat icon="users" value="3.200+" label="Peserta Terdaftar" />
-            <x-landing.stat icon="document-check" value="12.500+" label="Sertifikat Terbit" />
-            <x-landing.stat icon="building-office-2" value="6" label="Kategori Bidang" />
+            <x-landing.stat icon="rectangle-stack" value="85" iconend="+" label="Modul Pelatihan" />
+            <x-landing.stat icon="users" value="3200" iconend="+" label="Peserta Terdaftar" />
+            <x-landing.stat icon="document-check" value="12500" iconend="+" label="Sertifikat Terbit" />
+            <x-landing.stat icon="building-office-2" value="6" iconend="+" label="Kategori Bidang" />
         </dl>
     </section>
 
@@ -213,7 +217,7 @@
             <x-landing.section-heading
                 eyebrow="Berita & Pengumuman"
                 title="Kabar Terbaru Diklat"
-                subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RSUP H. Adam Malik." />
+                subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RS Adam Malik." />
 
             <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($berita as $item)
@@ -224,6 +228,13 @@
                         :title="$item['title']"
                         :excerpt="$item['excerpt']" />
                 @endforeach
+            </div>
+
+            <div class="mt-10 flex justify-center">
+                <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                    Lihat Semua Berita
+                    <flux:icon name="arrow-right" class="size-4" />
+                </a>
             </div>
         </div>
     </section>

@@ -1,0 +1,11 @@
+.progress {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: fill 1.2s cubic-bezier(.5,.5,.4,1.2) forwards;
+}
+
+@keyframes fill {
+  to {
+    transform: scaleX(1);
+  }
+}
