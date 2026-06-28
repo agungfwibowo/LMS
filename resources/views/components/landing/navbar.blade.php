@@ -18,7 +18,7 @@
 <header
     x-data="{ open: false, scrolled: false }"
     @scroll.window="scrolled = window.scrollY > 8"
-    :class="scrolled ? 'border-zinc-200 bg-white/90 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/90' : 'border-transparent bg-white/60 dark:bg-zinc-900/60'"
+    :class="scrolled ? 'border-zinc-200 bg-white/90 shadow-lg shadow-black/5 dark:border-zinc-800 dark:bg-zinc-900/90' : 'border-transparent bg-white/60 dark:bg-zinc-900/60'"
     class="fixed inset-x-0 top-0 z-50 border-b backdrop-blur transition-colors"
 >
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">

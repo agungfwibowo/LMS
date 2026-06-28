@@ -70,7 +70,7 @@ document.addEventListener('alpine:init', () => {
                 placeholder: 'Tulis konten berita di sini...',
                 modules: {
                     toolbar: [
-                        [{ header: [1, 2, 3, false] }],
+                        [{ header: [2, 3, 4, 5, false] }],
                         ['bold', 'italic', 'underline', 'strike'],
                         ['link', 'image'],
                         [{ list: 'ordered' }, { list: 'bullet' }],

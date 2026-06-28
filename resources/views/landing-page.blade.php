@@ -1,5 +1,7 @@
 @php
-    // Data dummy — nanti diganti sumber dinamis (Livewire/Eloquent).
+    use App\Enums\PostStatus;
+    use App\Models\Post;
+
     $kategori = [
         ['icon' => 'heart',          'title' => 'Pelatihan Medis',       'count' => 24, 'description' => 'Pelatihan klinis untuk dokter, perawat, dan tenaga medis lain sesuai standar kompetensi.'],
         ['icon' => 'beaker',         'title' => 'Penunjang & Lab',       'count' => 12, 'description' => 'Modul laboratorium, radiologi, farmasi, dan tenaga penunjang medis.'],
@@ -23,11 +25,12 @@
         ['title' => 'Manajemen Mutu & Akreditasi RS',        'category' => 'Manajemen',        'date' => '10 Jul 2026', 'time' => '08.00–16.00', 'quota' => 'Kuota penuh', 'status' => 'Penuh'],
     ];
 
-    $berita = [
-        ['icon' => 'megaphone',   'category' => 'Pengumuman', 'date' => '20 Jun 2026', 'title' => 'Pembukaan Pendaftaran Pelatihan Triwulan III 2026', 'excerpt' => 'Katalog pelatihan periode Juli–September telah dibuka untuk seluruh kategori peserta.'],
-        ['icon' => 'newspaper',   'category' => 'Berita',     'date' => '15 Jun 2026', 'title' => 'Integrasi Sertifikat SIPAHAM dengan SISDMK', 'excerpt' => 'Seluruh sertifikat digital kini tersinkron otomatis ke sistem SISDMK Kemenkes.'],
-        ['icon' => 'trophy',      'category' => 'Prestasi',   'date' => '10 Jun 2026', 'title' => 'RS Adam Malik Raih Predikat Diklat Terbaik', 'excerpt' => 'Capaian kompetensi SDM meningkat 32% sepanjang semester pertama 2026.'],
-    ];
+    $berita = Post::query()
+        ->where('status', PostStatus::Published)
+        ->with(['categories'])
+        ->latest('published_at')
+        ->limit(3)
+        ->get();
 
     $faqs = [
         ['question' => 'Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?', 'answer' => 'Seluruh tenaga kesehatan dan non-kesehatan RS Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.'],
@@ -220,14 +223,18 @@
                 subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RS Adam Malik." />
 
             <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($berita as $item)
+                @forelse ($berita as $post)
                     <x-landing.news-card
-                        :icon="$item['icon']"
-                        :category="$item['category']"
-                        :date="$item['date']"
-                        :title="$item['title']"
-                        :excerpt="$item['excerpt']" />
-                @endforeach
+                        :title="$post->title"
+                        :categories="$post->categories->pluck('name')->toArray()"
+                        :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
+                        :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
+                        :image="$post->featured_image ? Storage::url($post->featured_image) : null"
+                        :href="route('berita.show', $post->slug)"
+                    />
+                @empty
+                    <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada berita.</p>
+                @endforelse
             </div>
 
             <div class="mt-10 flex justify-center">

@@ -59,7 +59,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
 <div>
 {{-- ================= HERO ================= --}}
-<div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 max-w-full overflow-hidden">
+<div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 max-w-full overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-b from-brand-50/80 to-white dark:from-brand-950/30 dark:to-zinc-950"></div>
     <div class="absolute -right-24 -top-24 size-96 rounded-full bg-brand-200/40 blur-3xl dark:bg-brand-800/20"></div>
 </div>
@@ -120,7 +120,7 @@ new #[Layout('layouts.guest')] class extends Component {
 {{-- ================= FEATURED IMAGE ================= --}}
 @if ($post->featured_image)
     <div class="mx-auto max-w-4xl px-4 pt-8 sm:px-6 lg:px-8">
-        <div class="overflow-hidden rounded-2xl border border-zinc-200 shadow-md dark:border-zinc-800">
+        <div class="overflow-hidden border border-zinc-200 shadow-md dark:border-zinc-800">
             <img
                 src="{{ Storage::url($post->featured_image) }}"
                 alt="{{ $post->title }}"

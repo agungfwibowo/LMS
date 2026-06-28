@@ -128,8 +128,9 @@ new #[Layout('layouts.guest'), Title('Berita & Pengumuman')] class extends Compo
                 <x-landing.news-card
                     :title="$post->title"
                     :category="$post->categories->first()?->name ?? 'Berita'"
+                    :categories="$post->categories->pluck('name')->toArray()"
                     :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
-                    :excerpt="$post->excerpt ?? Str::limit(strip_tags($post->content), 120)"
+                    :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
                     :image="$post->featured_image ? Storage::url($post->featured_image) : null"
                     :href="route('berita.show', $post->slug)"
                 />

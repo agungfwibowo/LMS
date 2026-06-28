@@ -1,6 +1,7 @@
 @props([
     'title' => '',
     'category' => 'Pengumuman',
+    'categories' => [],
     'date' => '',
     'excerpt' => '',
     'href' => '#',
@@ -8,16 +9,63 @@
     'image' => null,
 ])
 
+@php
+$categoryIcons = [
+    'berita'      => 'newspaper',
+    'kebijakan'   => 'scale',
+    'panduan'     => 'book-open',
+    'pengumuman'  => 'megaphone',
+    'prestasi'    => 'trophy',
+    'sertifikasi' => 'identification',
+];
+
+$resolvedIcons = collect($categories)
+    ->map(fn($cat) => $categoryIcons[strtolower($cat)] ?? $icon)
+    ->unique()
+    ->values();
+
+if ($resolvedIcons->isEmpty()) {
+    $resolvedIcons = collect([$icon]);
+}
+
+$visibleCategories = [];
+$hiddenCategories  = [];
+$charCount         = 0;
+
+foreach ($categories as $cat) {
+    if ($charCount + mb_strlen($cat) <= 30) {
+        $visibleCategories[] = $cat;
+        $charCount += mb_strlen($cat);
+    } else {
+        $hiddenCategories[] = $cat;
+    }
+}
+
+$hiddenCount        = count($hiddenCategories);
+$hiddenTooltipText  = implode(', ', $hiddenCategories);
+@endphp
+
 <article class="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
     <div class="relative h-40 overflow-hidden">
         @if($image)
             <img src="{{ $image }}" alt="{{ $title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
         @else
-            <div class="flex h-full items-center justify-center bg-gradient-to-br from-brand-500 to-brand-700">
-                <flux:icon name="{{ $icon }}" class="size-12 text-white/80" />
+            <div class="flex h-full items-center justify-center gap-4 bg-linear-to-br from-brand-500 to-brand-700">
+                @foreach($resolvedIcons as $ic)
+                    <flux:icon name="{{ $ic }}" class="{{ $resolvedIcons->count() > 1 ? 'size-10' : 'size-12' }} text-white/80" />
+                @endforeach
             </div>
         @endif
-        <span class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-brand-700">{{ $category }}</span>
+        <div class="absolute left-4 top-4 flex flex-wrap gap-1">
+            @foreach($visibleCategories as $cat)
+                <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur">{{ $cat }}</span>
+            @endforeach
+            @if($hiddenCount > 0)
+                <flux:tooltip content="{{ $hiddenTooltipText }}">
+                    <span class="cursor-default rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur">+{{ $hiddenCount }}</span>
+                </flux:tooltip>
+            @endif
+        </div>
     </div>
 
     <div class="flex flex-1 flex-col p-5">
