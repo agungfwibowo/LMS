@@ -3,26 +3,32 @@
     use App\Models\Post;
 
     $kategori = [
-        ['icon' => 'heart',          'title' => 'Pelatihan Medis',       'count' => 24, 'description' => 'Pelatihan klinis untuk dokter, perawat, dan tenaga medis lain sesuai standar kompetensi.'],
-        ['icon' => 'beaker',         'title' => 'Penunjang & Lab',       'count' => 12, 'description' => 'Modul laboratorium, radiologi, farmasi, dan tenaga penunjang medis.'],
-        ['icon' => 'briefcase',      'title' => 'Manajemen & Mutu',      'count' => 18, 'description' => 'Tata kelola, akreditasi, keselamatan pasien, dan manajemen rumah sakit.'],
-        ['icon' => 'users',          'title' => 'Non-Medis & Umum',      'count' => 15, 'description' => 'Pelatihan administrasi, layanan publik, dan pengembangan SDM umum.'],
-        ['icon' => 'shield-check',   'title' => 'K3 & Keselamatan',      'count' => 9,  'description' => 'Keselamatan kerja, pengendalian infeksi, dan kesiapsiagaan bencana.'],
-        ['icon' => 'academic-cap',   'title' => 'Pelatihan Eksternal',   'count' => 7,  'description' => 'Program terbuka untuk peserta dari institusi mitra dan eksternal.'],
+        ['icon' => '🩺', 'bg' => 'bg-brand-50', 'title' => 'Keperawatan & Klinis',  'count' => 28, 'description' => 'Asuhan keperawatan, keselamatan pasien, dan kompetensi klinis lanjutan.'],
+        ['icon' => '📋', 'bg' => 'bg-lime-50',  'title' => 'Manajemen RS',           'count' => 18, 'description' => 'Tata kelola, mutu pelayanan, dan kepemimpinan unit kerja.'],
+        ['icon' => '🧑‍💼', 'bg' => 'bg-brand-50','title' => 'Administrasi & SDM',   'count' => 22, 'description' => 'Pelayanan publik, kearsipan, dan pengembangan kepegawaian.'],
+        ['icon' => '🦺', 'bg' => 'bg-lime-50',  'title' => 'K3 Rumah Sakit',         'count' => 15, 'description' => 'Keselamatan kerja, kewaspadaan bencana, dan pengendalian infeksi.'],
+        ['icon' => '💻', 'bg' => 'bg-brand-50', 'title' => 'Teknologi Informasi',    'count' => 12, 'description' => 'Rekam medis elektronik, SIMRS, dan literasi digital.'],
+        ['icon' => '🤝', 'bg' => 'bg-lime-50',  'title' => 'Pelayanan Prima',        'count' => 19, 'description' => 'Komunikasi efektif, etika pelayanan, dan kepuasan pasien.'],
     ];
 
     $alur = [
-        ['icon' => 'user-plus',          'title' => 'Buat Akun',        'description' => 'Daftar sebagai peserta medis, non-medis, manajemen, atau eksternal dengan data kepegawaian.'],
-        ['icon' => 'magnifying-glass',   'title' => 'Pilih Pelatihan',  'description' => 'Telusuri katalog per kategori, cek jadwal sesi, dan kuota yang tersedia.'],
-        ['icon' => 'pencil-square',      'title' => 'Ikuti Modul',      'description' => 'Akses materi e-learning, kerjakan evaluasi, dan ikuti sesi sesuai jadwal.'],
-        ['icon' => 'document-check',     'title' => 'Unduh Sertifikat', 'description' => 'Sertifikat digital terbit otomatis dan tersinkron ke SISDMK.'],
+        ['title' => 'Buat Akun',        'description' => 'Daftar dengan NIP pegawai atau data diri untuk peserta eksternal.'],
+        ['title' => 'Pilih Pelatihan',  'description' => 'Telusuri katalog dan pilih modul sesuai peran serta kebutuhan.'],
+        ['title' => 'Ikuti Sesi',       'description' => 'Belajar daring atau luring sesuai jadwal yang tersedia.'],
+        ['title' => 'Dapatkan Sertifikat', 'description' => 'Selesaikan evaluasi dan unduh sertifikat digital resmi.'],
     ];
 
     $jadwal = [
-        ['title' => 'Bantuan Hidup Dasar (BHD) Angkatan 12', 'category' => 'Medis',           'date' => '02 Jul 2026', 'time' => '08.00–15.00', 'quota' => 'Sisa 8 kursi', 'status' => 'Dibuka'],
-        ['title' => 'Pencegahan & Pengendalian Infeksi',     'category' => 'K3 & Keselamatan', 'date' => '05 Jul 2026', 'time' => '09.00–12.00', 'quota' => 'Sisa 3 kursi', 'status' => 'Hampir Penuh'],
-        ['title' => 'Komunikasi Efektif Pelayanan Publik',   'category' => 'Non-Medis',        'date' => '08 Jul 2026', 'time' => '13.00–16.00', 'quota' => 'Sisa 20 kursi', 'status' => 'Dibuka'],
-        ['title' => 'Manajemen Mutu & Akreditasi RS',        'category' => 'Manajemen',        'date' => '10 Jul 2026', 'time' => '08.00–16.00', 'quota' => 'Kuota penuh', 'status' => 'Penuh'],
+        ['title' => 'Pelatihan Keselamatan Pasien (Patient Safety)', 'category' => 'Keperawatan', 'day' => '08', 'month' => 'Jul', 'mode' => 'Luring · Aula Diklat',  'quota' => 'Sisa 12 kuota', 'status' => 'Dibuka'],
+        ['title' => 'Manajemen Mutu Pelayanan Rumah Sakit',          'category' => 'Manajemen',   'day' => '15', 'month' => 'Jul', 'mode' => 'Daring · Zoom',         'quota' => 'Sisa 40 kuota', 'status' => 'Dibuka'],
+        ['title' => 'Pencegahan & Pengendalian Infeksi (PPI)',        'category' => 'K3RS',        'day' => '22', 'month' => 'Jul', 'mode' => 'Luring · Gedung A',     'quota' => 'Sisa 8 kuota',  'status' => 'Hampir Penuh'],
+        ['title' => 'Pelayanan Publik & Komunikasi Efektif',          'category' => 'Administrasi','day' => '05', 'month' => 'Agu', 'mode' => 'Daring · LMS',          'quota' => 'Sisa 60 kuota', 'status' => 'Dibuka'],
+    ];
+
+    $testimoni = [
+        ['quote' => 'Materi pelatihannya relevan dengan tugas harian saya di bangsal. Sertifikatnya juga langsung terbit di akun.', 'initials' => 'SR', 'bg' => 'bg-brand-50', 'name' => 'Siti Rahmawati', 'role' => 'Perawat Pelaksana'],
+        ['quote' => 'Sebagai kepala unit, SIPAHAM memudahkan saya memantau kompetensi seluruh anggota tim secara terpusat.', 'initials' => 'BH', 'bg' => 'bg-lime-50',  'name' => 'Budi Hartono', 'role' => 'Kepala Instalasi'],
+        ['quote' => 'Proses pendaftaran cepat dan jadwalnya jelas. Pelatihan daringnya fleksibel di sela jam kerja.', 'initials' => 'DA', 'bg' => 'bg-brand-50', 'name' => 'Dewi Anggraini', 'role' => 'Staf Administrasi'],
     ];
 
     $berita = Post::query()
@@ -33,58 +39,68 @@
         ->get();
 
     $faqs = [
-        ['question' => 'Siapa saja yang bisa mengikuti pelatihan di SIPAHAM?', 'answer' => 'Seluruh tenaga kesehatan dan non-kesehatan RS Adam Malik — medis, penunjang, manajemen — serta peserta eksternal dari institusi mitra dapat mendaftar sesuai kategori yang tersedia.'],
-        ['question' => 'Bagaimana cara mendaftar pelatihan?', 'answer' => 'Buat akun terlebih dahulu, lengkapi data kepegawaian, lalu pilih pelatihan pada katalog dan daftar pada sesi dengan kuota yang masih tersedia.'],
-        ['question' => 'Apakah sertifikat yang diterbitkan resmi?', 'answer' => 'Ya. Sertifikat digital terbit otomatis setelah peserta menyelesaikan modul dan evaluasi, serta tersinkron langsung ke sistem SISDMK Kementerian Kesehatan.'],
-        ['question' => 'Apakah pelatihan dilakukan secara daring atau luring?', 'answer' => 'Tergantung jenis pelatihan. Sebagian modul tersedia penuh secara e-learning, sebagian lainnya menggabungkan sesi luring sesuai jadwal yang tercantum.'],
-        ['question' => 'Bagaimana manajemen memantau kompetensi SDM?', 'answer' => 'Manajemen RS memperoleh rekap kompetensi SDM secara terpusat — capaian pelatihan, sertifikasi, dan riwayat peserta dapat dipantau dari satu dasbor.'],
+        ['question' => 'Siapa saja yang bisa mendaftar?',             'answer' => 'Seluruh pegawai RSUP H. Adam Malik (medis, non-medis, manajemen) serta peserta eksternal yang memenuhi syarat dapat mendaftar melalui SIPAHAM.'],
+        ['question' => 'Bagaimana cara masuk ke sistem?',             'answer' => 'Pegawai dapat masuk menggunakan NIP dan kata sandi terdaftar. Peserta eksternal menggunakan email yang didaftarkan saat registrasi.'],
+        ['question' => 'Apakah pelatihan dipungut biaya?',            'answer' => 'Sebagian besar pelatihan internal gratis bagi pegawai. Pelatihan tertentu untuk peserta eksternal dapat dikenakan biaya yang tertera pada detail modul.'],
+        ['question' => 'Apakah sertifikat diakui resmi?',             'answer' => 'Ya. Sertifikat diterbitkan secara digital oleh Bagian Diklat RS Adam Malik dan dapat terintegrasi dengan SISDMK.'],
+        ['question' => 'Bagaimana jika berhalangan hadir pada sesi luring?', 'answer' => 'Anda dapat mengajukan penjadwalan ulang melalui akun selama kuota batch berikutnya masih tersedia.'],
     ];
 @endphp
 
 <x-layouts::guest :title="__('Beranda')">
 
-    {{-- ================= HERO ================= --}}
-    <section id="hero" class="relative overflow-hidden pt-16">
-        {{-- dekorasi background --}}
-        <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
-            <div class="absolute inset-0 bg-gradient-to-b from-brand-50/80 to-white dark:from-brand-950/30 dark:to-zinc-950"></div>
-            <div class="absolute -right-24 -top-24 size-96 rounded-full bg-brand-200/40 blur-3xl dark:bg-brand-800/20"></div>
-        </div>
+    {{-- ============ HERO ============ --}}
+    <section id="hero" class="pt-16">
+        <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-[72px] lg:px-8">
 
-        <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24 lg:px-8">
+            {{-- Left --}}
             <div>
-                <span class="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-800 dark:bg-zinc-900 dark:text-brand-400">
-                    <span class="flex size-2 rounded-full bg-brand-500"></span>
-                    Sistem Pelatihan RS Adam Malik
-                </span>
+                <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[13px] font-semibold text-brand-800 dark:bg-teal-900/40 dark:text-teal-300">
+                    <span class="inline-block size-[7px] rounded-full bg-brand-600 dark:bg-teal-400"></span>
+                    Platform pelatihan resmi RSUP H. Adam Malik
+                </div>
 
-                <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl dark:text-white">
-                    Tingkatkan Kompetensi <span class="text-brand-600 dark:text-brand-400">Tenaga Kesehatan</span> dalam Satu Platform
+                <h1 class="font-heading font-extrabold leading-[1.06] tracking-[-0.03em] text-brand-950 dark:text-white" style="font-size:clamp(2.4rem,5vw,3.375rem)">
+                    Kembangkan kompetensi tenaga rumah sakit dalam satu sistem
                 </h1>
 
-                <p class="mt-6 max-w-xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-300">
-                    SIPAHAM mengelola seluruh siklus pelatihan — dari pendaftaran, modul e-learning, hingga sertifikat digital yang terintegrasi langsung ke SISDMK.
+                <p class="mt-6 max-w-[520px] text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    SIPAHAM menghadirkan pelatihan terstruktur untuk seluruh tenaga medis, non-medis, dan manajemen — daftar, ikuti, dan kelola sertifikat Anda dengan mudah.
                 </p>
 
                 <div class="mt-8 flex flex-wrap gap-3">
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700">
-                            Daftar Pelatihan
-                            <flux:icon name="arrow-right" class="size-4" />
+                        <a href="{{ route('register') }}"
+                           class="inline-flex items-center gap-2 rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 shadow-[0_4px_14px_rgba(160,176,20,0.35)] transition-opacity hover:opacity-90">
+                            Mulai Pelatihan
                         </a>
                     @endif
-                    <a href="#katalog" class="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                    <a href="#katalog"
+                       class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-7 py-3.75 text-[15.5px] font-bold text-brand-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-teal-400 dark:hover:bg-zinc-700">
                         Lihat Katalog
                     </a>
                 </div>
 
-                <div class="mt-8 flex items-center gap-6 text-sm text-zinc-500 dark:text-zinc-400">
-                    <span class="inline-flex items-center gap-2"><flux:icon name="check-circle" class="size-5 text-brand-600" /> Sertifikat digital</span>
-                    <span class="inline-flex items-center gap-2"><flux:icon name="check-circle" class="size-5 text-brand-600" /> Terintegrasi SISDMK</span>
+                {{-- Stats --}}
+                <div class="mt-12 flex flex-wrap items-center gap-0">
+                    <div class="pr-10">
+                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="120"/>+</div>
+                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Modul pelatihan</div>
+                    </div>
+                    <div class="mx-0 h-10 w-px bg-zinc-200 dark:bg-zinc-700"></div>
+                    <div class="px-10">
+                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="8500"/>+</div>
+                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Peserta aktif</div>
+                    </div>
+                    <div class="mx-0 h-10 w-px bg-zinc-200 dark:bg-zinc-700"></div>
+                    <div class="pl-10">
+                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="96"/>%</div>
+                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Tingkat kelulusan</div>
+                    </div>
                 </div>
             </div>
 
-            {{-- kartu visual hero --}}
+            {{-- Right — widget card --}}
             <div class="relative">
                 <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between">
@@ -127,7 +143,7 @@
                     </div>
                 </div>
 
-                {{-- badge mengambang --}}
+                {{-- Floating badge --}}
                 <div class="animate-float absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-lg sm:flex dark:border-zinc-800 dark:bg-zinc-900">
                     <span class="flex size-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"><flux:icon name="document-check" class="size-5" /></span>
                     <div>
@@ -136,51 +152,47 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
-    {{-- ================= STATISTIK ================= --}}
-    <section class="border-y border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/40">
-        <dl class="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
-            <x-landing.stat icon="rectangle-stack" value="85" iconend="+" label="Modul Pelatihan" />
-            <x-landing.stat icon="users" value="3200" iconend="+" label="Peserta Terdaftar" />
-            <x-landing.stat icon="document-check" value="12500" iconend="+" label="Sertifikat Terbit" />
-            <x-landing.stat icon="building-office-2" value="6" iconend="+" label="Kategori Bidang" />
-        </dl>
-    </section>
-
-    {{-- ================= KATALOG PELATIHAN ================= --}}
+    {{-- ============ KATALOG ============ --}}
     <section id="katalog" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <x-landing.section-heading
-            eyebrow="Katalog Pelatihan"
-            title="Pelatihan untuk Setiap Bidang"
-            subtitle="Modul tersusun per kategori kompetensi agar peserta mudah menemukan pelatihan yang relevan dengan profesinya." />
+        <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+            <x-landing.section-heading
+                :center="false"
+                eyebrow="Katalog Pelatihan"
+                title="Kategori pelatihan untuk setiap peran" />
+            <a href="#" class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Lihat semua →</a>
+        </div>
 
-        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($kategori as $item)
-                <x-landing.category-card
-                    :icon="$item['icon']"
-                    :title="$item['title']"
-                    :count="$item['count']"
-                    :description="$item['description']"
-                    href="#jadwal" />
+                <a href="#jadwal"
+                   class="group flex flex-col rounded-[18px] border border-zinc-200 bg-white p-6.5 transition-all hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(14,79,77,0.45)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
+                    <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] text-2xl {{ $item['bg'] }}">{{ $item['icon'] }}</div>
+                    <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item['title'] }}</h3>
+                    <p class="mt-2 flex-1 text-[14.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">{{ $item['description'] }}</p>
+                    <div class="mt-4 text-[13px] font-semibold text-brand-600">{{ $item['count'] }} modul</div>
+                </a>
             @endforeach
         </div>
     </section>
 
-    {{-- ================= ALUR PENDAFTARAN ================= --}}
-    <section id="alur" class="border-y border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/40">
-        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-            <x-landing.section-heading
-                eyebrow="Alur Pendaftaran"
-                title="Empat Langkah Mudah"
-                subtitle="Dari membuat akun hingga sertifikat di tangan — seluruh proses dilakukan dalam satu platform." />
-
-            <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {{-- ============ ALUR ============ --}}
+    <section id="alur" class="bg-brand-900">
+        <div class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <x-landing.section-heading
+                    :dark="true"
+                    eyebrow="Cara Mendaftar"
+                    title="Empat langkah untuk mulai belajar" />
+            </div>
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 @foreach ($alur as $i => $item)
                     <x-landing.step
+                        variant="dark"
                         :number="$i + 1"
-                        :icon="$item['icon']"
                         :title="$item['title']"
                         :description="$item['description']" />
                 @endforeach
@@ -188,96 +200,125 @@
         </div>
     </section>
 
-    {{-- ================= JADWAL ================= --}}
-    <section id="jadwal" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    {{-- ============ JADWAL ============ --}}
+    <section id="jadwal" class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
+        <div class="mb-9 flex flex-wrap items-end justify-between gap-6">
             <x-landing.section-heading
                 :center="false"
-                eyebrow="Jadwal Sesi"
-                title="Jadwal Pelatihan Terdekat"
-                subtitle="Cek jadwal sesi dan kuota yang tersedia, lalu daftar sebelum kuota penuh." />
-            <a href="#" class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400">
-                Lihat semua jadwal <flux:icon name="arrow-right" class="size-4" />
-            </a>
+                eyebrow="Jadwal Mendatang"
+                title="Pelatihan yang akan dibuka" />
+            <a href="#" class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Kalender penuh →</a>
         </div>
 
-        <div class="mt-10 flex flex-col gap-4">
+        <div class="flex flex-col gap-3.5">
             @foreach ($jadwal as $sesi)
                 <x-landing.schedule-item
                     :title="$sesi['title']"
                     :category="$sesi['category']"
-                    :date="$sesi['date']"
-                    :time="$sesi['time']"
+                    :day="$sesi['day']"
+                    :month="$sesi['month']"
+                    :mode="$sesi['mode']"
                     :quota="$sesi['quota']"
                     :status="$sesi['status']" />
             @endforeach
         </div>
     </section>
 
-    {{-- ================= BERITA ================= --}}
-    <section id="berita" class="border-y border-zinc-200 bg-zinc-50/60 dark:border-zinc-800 dark:bg-zinc-900/40">
-        <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+    {{-- ============ TESTIMONI ============ --}}
+    <section class="bg-brand-50 dark:bg-zinc-900">
+        <div class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <x-landing.section-heading
+                    eyebrow="Testimoni"
+                    title="Apa kata peserta" />
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach ($testimoni as $t)
+                    <div class="flex flex-col rounded-[18px] border border-zinc-200 bg-white p-7 dark:border-zinc-700 dark:bg-zinc-800/60">
+                        <div class="mb-2 font-heading text-[30px] font-extrabold leading-none text-lime">&ldquo;</div>
+                        <p class="mb-6 flex-1 text-[15.5px] leading-[1.65] text-zinc-700 dark:text-zinc-300">{{ $t['quote'] }}</p>
+                        <div class="flex items-center gap-3">
+                            <div class="{{ $t['bg'] }} flex size-11 items-center justify-center rounded-full font-heading text-sm font-bold text-brand-900 dark:text-teal-300">{{ $t['initials'] }}</div>
+                            <div>
+                                <div class="text-[14.5px] font-bold text-brand-950 dark:text-white">{{ $t['name'] }}</div>
+                                <div class="text-[13px] text-zinc-500 dark:text-zinc-400">{{ $t['role'] }}</div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ============ BERITA ============ --}}
+    <section id="berita" class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
+        <div class="mb-9 flex flex-wrap items-end justify-between gap-6">
             <x-landing.section-heading
+                :center="false"
                 eyebrow="Berita & Pengumuman"
-                title="Kabar Terbaru Diklat"
-                subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RS Adam Malik." />
+                title="Kabar terbaru SIPAHAM" />
+            <a href="{{ route('berita.index') }}" class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Semua berita →</a>
+        </div>
 
-            <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @forelse ($berita as $post)
-                    <x-landing.news-card
-                        :title="$post->title"
-                        :categories="$post->categories->pluck('name')->toArray()"
-                        :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
-                        :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
-                        :image="$post->featured_image ? Storage::url($post->featured_image) : null"
-                        :href="route('berita.show', $post->slug)"
-                    />
-                @empty
-                    <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada berita.</p>
-                @endforelse
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            @forelse ($berita as $post)
+                <x-landing.news-card
+                    :title="$post->title"
+                    :categories="$post->categories->pluck('name')->toArray()"
+                    :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
+                    :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
+                    :image="$post->featured_image ? Storage::url($post->featured_image) : null"
+                    :href="route('berita.show', $post->slug)"
+                />
+            @empty
+                <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada berita.</p>
+            @endforelse
+        </div>
+    </section>
+
+    {{-- ============ FAQ ============ --}}
+    <section id="faq" class="bg-brand-50 dark:bg-zinc-900">
+        <div class="mx-auto max-w-3xl px-4 py-[72px] sm:px-6 lg:px-8">
+            <div class="mb-11 text-center">
+                <x-landing.section-heading
+                    eyebrow="FAQ"
+                    title="Pertanyaan yang sering diajukan" />
             </div>
-
-            <div class="mt-10 flex justify-center">
-                <a href="{{ route('berita.index') }}" class="inline-flex items-center gap-2 rounded-xl border border-zinc-300 bg-white px-6 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                    Lihat Semua Berita
-                    <flux:icon name="arrow-right" class="size-4" />
-                </a>
+            <div x-data="{ active: 1 }">
+                @foreach ($faqs as $faq)
+                    <x-landing.faq :id="$loop->iteration" :question="$faq['question']">
+                        {{ $faq['answer'] }}
+                    </x-landing.faq>
+                @endforeach
             </div>
         </div>
     </section>
 
-    {{-- ================= FAQ ================= --}}
-    <section id="faq" class="mx-auto max-w-3xl px-4 py-20 sm:px-6 lg:px-8">
-        <x-landing.section-heading
-            eyebrow="FAQ"
-            title="Pertanyaan yang Sering Diajukan" />
+    {{-- ============ CTA BAND ============ --}}
+    <section class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
+        <div class="relative flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14">
+            {{-- Decorative circle --}}
+            <div class="pointer-events-none absolute -right-10 -top-10 size-60 rounded-full bg-lime/16"></div>
 
-        <div class="mt-10" x-data="{ active: 1 }">
-            @foreach ($faqs as $faq)
-                <x-landing.faq :id="$loop->iteration" :question="$faq['question']">
-                    {{ $faq['answer'] }}
-                </x-landing.faq>
-            @endforeach
-        </div>
-    </section>
+            <div class="relative">
+                <h2 class="font-heading font-extrabold text-white leading-[1.1] tracking-tight max-w-[520px]" style="font-size:clamp(1.6rem,3vw,2.125rem)">
+                    Siap mengembangkan kompetensi tim Anda?
+                </h2>
+                <p class="mt-3.5 max-w-[480px] text-base text-zinc-300">
+                    Masuk dengan akun pegawai RS Adam Malik atau daftar sebagai peserta baru.
+                </p>
+            </div>
 
-    {{-- ================= CTA ================= --}}
-    <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 px-6 py-14 text-center shadow-xl sm:px-12">
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-white/10 blur-2xl"></div>
-            <h2 class="relative text-3xl font-bold tracking-tight text-white sm:text-4xl">Siap mengembangkan kompetensi Anda?</h2>
-            <p class="relative mx-auto mt-4 max-w-2xl text-base leading-relaxed text-brand-50">
-                Bergabunglah dengan ribuan tenaga kesehatan yang telah meningkatkan kompetensinya melalui SIPAHAM.
-            </p>
-            <div class="relative mt-8 flex flex-wrap justify-center gap-3">
+            <div class="relative flex flex-wrap gap-3.5">
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-sm transition-colors hover:bg-brand-50">
+                    <a href="{{ route('register') }}"
+                       class="inline-flex items-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90">
                         Daftar Sekarang
-                        <flux:icon name="arrow-right" class="size-4" />
                     </a>
                 @endif
-                <a href="{{ route('login') }}" class="inline-flex items-center gap-2 rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/10">
-                    Masuk Akun
+                <a href="{{ route('login') }}"
+                   class="inline-flex items-center rounded-xl border border-white/30 px-7 py-3.75 text-[15.5px] font-bold text-white transition-colors hover:bg-white/10">
+                    Masuk
                 </a>
             </div>
         </div>

@@ -1,0 +1,21 @@
+.nav-link {
+    border: 1px solid transparent;
+    padding: 4px 12px!important;
+}
+
+[aria-current="page"] {
+    color: var(--color-brand-900);
+    background: var(--color-brand-50);
+    border-color: var(--color-zinc-200);
+    border-radius: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.dark {
+    [aria-current="page"] {
+        color: var(--color-brand-300);
+        background: var(--color-brand-950);
+        border-color: var(--color-slate-800);
+    }
+}

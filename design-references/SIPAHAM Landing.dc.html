@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Public Sans',system-ui,sans-serif;color:#13302f;background:#f5f8f8;-webkit-font-smoothing:antialiased}
+  ::selection{background:#c4d41a;color:#0d3a39}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#0e4f4d"/>
+    <circle cx="34" cy="34" r="11" fill="#5cbfce"/>
+    <circle cx="66" cy="34" r="11" fill="#c4d41a"/>
+    <circle cx="34" cy="66" r="11" fill="#1f9b9b"/>
+    <circle cx="66" cy="66" r="11" fill="#eef5f4"/>
+  </svg>
+</template>
+<div style="min-height:100vh;background:#f5f8f8;overflow-x:hidden">
+
+  <!-- ============ NAV ============ -->
+  <header style="position:sticky;top:0;z-index:50;background:rgba(245,248,248,0.85);backdrop-filter:blur(12px);border-bottom:1px solid #e2eaea">
+    <div style="max-width:1200px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <img src="assets/logo.png" alt="SIPAHAM" style="width:42px;height:42px;object-fit:contain" />
+        <div style="display:flex;flex-direction:column;line-height:1.05">
+          <span style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:20px;letter-spacing:-0.02em;color:#0e4f4d">SIPAHAM</span>
+          <span style="font-size:11px;color:#5a7271;font-weight:500;letter-spacing:0.02em">Sistem Pelatihan RS Adam Malik</span>
+        </div>
+      </div>
+      <nav style="display:flex;align-items:center;gap:30px">
+        <a href="#katalog" style="font-size:14.5px;font-weight:600;color:#3a4f4e;text-decoration:none">Katalog</a>
+        <a href="#alur" style="font-size:14.5px;font-weight:600;color:#3a4f4e;text-decoration:none">Cara Daftar</a>
+        <a href="#jadwal" style="font-size:14.5px;font-weight:600;color:#3a4f4e;text-decoration:none">Jadwal</a>
+        <a href="#berita" style="font-size:14.5px;font-weight:600;color:#3a4f4e;text-decoration:none">Berita</a>
+        <a href="#faq" style="font-size:14.5px;font-weight:600;color:#3a4f4e;text-decoration:none">FAQ</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="#" style="font-size:14.5px;font-weight:700;color:#0e4f4d;text-decoration:none;padding:10px 18px;border-radius:10px;border:1.5px solid #cfdedd">Masuk</a>
+        <a href="#" style="font-size:14.5px;font-weight:700;color:#0d3a39;text-decoration:none;padding:11px 20px;border-radius:10px;background:#c4d41a;box-shadow:0 1px 2px rgba(13,58,57,0.12)">Daftar</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section style="max-width:1200px;margin:0 auto;padding:72px 32px 56px;display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center">
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#e4f1f0;color:#0e6562;padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;margin-bottom:24px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#1f9b9b;display:inline-block"></span>
+        Platform pelatihan resmi RSUP H. Adam Malik
+      </div>
+      <h1 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:54px;line-height:1.06;letter-spacing:-0.03em;color:#0c2e2d;text-wrap:balance">Kembangkan kompetensi tenaga rumah sakit dalam satu sistem</h1>
+      <p style="font-size:18px;line-height:1.6;color:#46605f;margin-top:22px;max-width:520px">SIPAHAM menghadirkan pelatihan terstruktur untuk seluruh tenaga medis, non-medis, dan manajemen — daftar, ikuti, dan kelola sertifikat Anda dengan mudah.</p>
+      <div style="display:flex;gap:14px;margin-top:34px;flex-wrap:wrap">
+        <a href="#" style="font-size:15.5px;font-weight:700;color:#0d3a39;text-decoration:none;padding:15px 28px;border-radius:12px;background:#c4d41a;box-shadow:0 4px 14px rgba(160,176,20,0.35)">Mulai Pelatihan</a>
+        <a href="#katalog" style="font-size:15.5px;font-weight:700;color:#0e4f4d;text-decoration:none;padding:15px 28px;border-radius:12px;background:#fff;border:1.5px solid #d4e1e0">Lihat Katalog</a>
+      </div>
+      <div style="display:flex;gap:40px;margin-top:46px">
+        <div>
+          <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:30px;color:#0e6562">120+</div>
+          <div style="font-size:13.5px;color:#5a7271;font-weight:500;margin-top:2px">Modul pelatihan</div>
+        </div>
+        <div style="width:1px;background:#dce6e5"></div>
+        <div>
+          <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:30px;color:#0e6562">8.500+</div>
+          <div style="font-size:13.5px;color:#5a7271;font-weight:500;margin-top:2px">Peserta aktif</div>
+        </div>
+        <div style="width:1px;background:#dce6e5"></div>
+        <div>
+          <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:30px;color:#0e6562">96%</div>
+          <div style="font-size:13.5px;color:#5a7271;font-weight:500;margin-top:2px">Tingkat kelulusan</div>
+        </div>
+      </div>
+    </div>
+    <div style="position:relative">
+      <div style="position:absolute;inset:-18px;background:radial-gradient(circle at 70% 30%,#dff1ef,transparent 70%);z-index:0"></div>
+      <div style="position:relative;z-index:1;background:repeating-linear-gradient(135deg,#e9f1f0,#e9f1f0 10px,#eef5f4 10px,#eef5f4 20px);border:1px solid #d9e6e5;border-radius:20px;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;box-shadow:0 24px 60px -28px rgba(14,79,77,0.4)">
+        <span style="font-family:ui-monospace,monospace;font-size:13px;color:#8aa3a2;background:#f5f8f8;padding:8px 14px;border-radius:8px;border:1px dashed #b9cecd">foto kegiatan pelatihan</span>
+      </div>
+      <div style="position:absolute;z-index:2;bottom:24px;left:-26px;background:#fff;border-radius:14px;padding:14px 18px;box-shadow:0 12px 30px -10px rgba(14,79,77,0.35);display:flex;align-items:center;gap:12px;animation:floaty 5s ease-in-out infinite">
+        <div style="width:40px;height:40px;border-radius:10px;background:#e4f1f0;display:flex;align-items:center;justify-content:center;font-size:20px">🎓</div>
+        <div>
+          <div style="font-weight:700;font-size:14px;color:#0e4f4d">Sertifikat digital</div>
+          <div style="font-size:12px;color:#6a8281">Terbit otomatis</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KATALOG ============ -->
+  <section id="katalog" style="max-width:1200px;margin:0 auto;padding:56px 32px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;color:#1f9b9b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px">Katalog Pelatihan</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#0c2e2d;max-width:560px;line-height:1.1">Kategori pelatihan untuk setiap peran</h2>
+      </div>
+      <a href="#" style="font-size:14.5px;font-weight:700;color:#0e4f4d;text-decoration:none;white-space:nowrap">Lihat semua →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="6">
+        <div style="background:#fff;border:1px solid #e6eeed;border-radius:18px;padding:26px;transition:transform .2s,box-shadow .2s" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(14,79,77,0.45);border-color:#cfe2e0">
+          <div style="width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;background:{{ cat.bg }}">{{ cat.icon }}</div>
+          <h3 style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:19px;color:#0e3b3a;margin-bottom:8px">{{ cat.title }}</h3>
+          <p style="font-size:14.5px;line-height:1.55;color:#5a7271;margin-bottom:16px">{{ cat.desc }}</p>
+          <div style="font-size:13px;font-weight:600;color:#1f9b9b">{{ cat.count }} modul</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ ALUR ============ -->
+  <section id="alur" style="background:#0e4f4d;margin-top:40px">
+    <div style="max-width:1200px;margin:0 auto;padding:72px 32px">
+      <div style="text-align:center;margin-bottom:48px">
+        <div style="font-size:13.5px;font-weight:700;color:#c4d41a;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Cara Mendaftar</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#fff;line-height:1.1">Empat langkah untuk mulai belajar</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px">
+        <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
+          <div style="position:relative">
+            <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:15px;color:#0d3a39;background:#c4d41a;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px">{{ step.no }}</div>
+            <h3 style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:18px;color:#fff;margin-bottom:8px">{{ step.title }}</h3>
+            <p style="font-size:14.5px;line-height:1.55;color:#a8c8c6">{{ step.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JADWAL ============ -->
+  <section id="jadwal" style="max-width:1200px;margin:0 auto;padding:72px 32px 56px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;color:#1f9b9b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px">Jadwal Mendatang</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#0c2e2d;line-height:1.1">Pelatihan yang akan dibuka</h2>
+      </div>
+      <a href="#" style="font-size:14.5px;font-weight:700;color:#0e4f4d;text-decoration:none;white-space:nowrap">Kalender penuh →</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ schedule }}" as="ev" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #e6eeed;border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:24px" style-hover="border-color:#cfe2e0;box-shadow:0 12px 30px -20px rgba(14,79,77,0.4)">
+          <div style="text-align:center;background:#e4f1f0;border-radius:12px;padding:12px 16px;min-width:78px">
+            <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:26px;color:#0e6562;line-height:1">{{ ev.day }}</div>
+            <div style="font-size:12.5px;font-weight:600;color:#3a8987;text-transform:uppercase;letter-spacing:0.03em">{{ ev.month }}</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;flex-wrap:wrap">
+              <span style="font-size:11.5px;font-weight:700;color:#0e6562;background:#eaf4f3;padding:3px 9px;border-radius:6px">{{ ev.tag }}</span>
+              <span style="font-size:13px;color:#7a908f">{{ ev.mode }}</span>
+            </div>
+            <h3 style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:18px;color:#0e3b3a">{{ ev.title }}</h3>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:13px;color:#7a908f;margin-bottom:8px">{{ ev.slot }}</div>
+            <a href="#" style="font-size:13.5px;font-weight:700;color:#0d3a39;text-decoration:none;padding:9px 18px;border-radius:9px;background:#c4d41a;display:inline-block">Daftar</a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONI ============ -->
+  <section style="background:#eef5f4">
+    <div style="max-width:1200px;margin:0 auto;padding:72px 32px">
+      <div style="text-align:center;margin-bottom:48px">
+        <div style="font-size:13.5px;font-weight:700;color:#1f9b9b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">Testimoni</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#0c2e2d;line-height:1.1">Apa kata peserta</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
+          <div style="background:#fff;border-radius:18px;padding:28px;border:1px solid #e1ecea">
+            <div style="font-size:30px;color:#c4d41a;line-height:1;font-family:'Plus Jakarta Sans';font-weight:800;margin-bottom:8px">&ldquo;</div>
+            <p style="font-size:15.5px;line-height:1.65;color:#2f4a49;margin-bottom:22px">{{ t.quote }}</p>
+            <div style="display:flex;align-items:center;gap:12px">
+              <div style="width:44px;height:44px;border-radius:50%;background:{{ t.bg }};display:flex;align-items:center;justify-content:center;font-weight:700;color:#0e4f4d;font-family:'Plus Jakarta Sans'">{{ t.initials }}</div>
+              <div>
+                <div style="font-weight:700;font-size:14.5px;color:#0e3b3a">{{ t.name }}</div>
+                <div style="font-size:13px;color:#6a8281">{{ t.role }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BERITA ============ -->
+  <section id="berita" style="max-width:1200px;margin:0 auto;padding:72px 32px 56px">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:13.5px;font-weight:700;color:#1f9b9b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px">Berita &amp; Pengumuman</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#0c2e2d;line-height:1.1">Kabar terbaru SIPAHAM</h2>
+      </div>
+      <a href="#" style="font-size:14.5px;font-weight:700;color:#0e4f4d;text-decoration:none;white-space:nowrap">Semua berita →</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <sc-for list="{{ news }}" as="n" hint-placeholder-count="3">
+        <a href="#" style="text-decoration:none;background:#fff;border:1px solid #e6eeed;border-radius:18px;overflow:hidden;display:block" style-hover="box-shadow:0 18px 40px -22px rgba(14,79,77,0.45);border-color:#cfe2e0">
+          <div style="aspect-ratio:16/9;background:repeating-linear-gradient(135deg,#e9f1f0,#e9f1f0 9px,#eef5f4 9px,#eef5f4 18px);display:flex;align-items:center;justify-content:center;border-bottom:1px solid #e6eeed">
+            <span style="font-family:ui-monospace,monospace;font-size:11.5px;color:#90a8a7;background:#f5f8f8;padding:5px 10px;border-radius:6px;border:1px dashed #b9cecd">gambar berita</span>
+          </div>
+          <div style="padding:22px">
+            <div style="font-size:12.5px;font-weight:600;color:#1f9b9b;margin-bottom:10px">{{ n.date }} · {{ n.cat }}</div>
+            <h3 style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:18px;color:#0e3b3a;line-height:1.3;margin-bottom:8px">{{ n.title }}</h3>
+            <p style="font-size:14px;line-height:1.55;color:#5a7271">{{ n.excerpt }}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section id="faq" style="background:#eef5f4">
+    <div style="max-width:820px;margin:0 auto;padding:72px 32px">
+      <div style="text-align:center;margin-bottom:44px">
+        <div style="font-size:13.5px;font-weight:700;color:#1f9b9b;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px">FAQ</div>
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:36px;letter-spacing:-0.02em;color:#0c2e2d;line-height:1.1">Pertanyaan yang sering diajukan</h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="5">
+          <div style="background:#fff;border:1px solid #e1ecea;border-radius:14px;overflow:hidden">
+            <button onClick="{{ f.onToggle }}" style="width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Plus Jakarta Sans'">
+              <span style="font-weight:700;font-size:16.5px;color:#0e3b3a">{{ f.q }}</span>
+              <span style="font-size:24px;color:#1f9b9b;font-weight:400;line-height:1;flex-shrink:0">{{ f.sign }}</span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 24px 22px;font-size:15px;line-height:1.65;color:#4a635f">{{ f.a }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section style="max-width:1200px;margin:0 auto;padding:72px 32px">
+    <div style="background:#0e4f4d;border-radius:24px;padding:56px;display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-40px;top:-40px;width:240px;height:240px;border-radius:50%;background:rgba(196,212,26,0.16)"></div>
+      <div style="position:relative;z-index:1">
+        <h2 style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:34px;color:#fff;letter-spacing:-0.02em;line-height:1.1;max-width:520px">Siap mengembangkan kompetensi tim Anda?</h2>
+        <p style="font-size:16px;color:#a8c8c6;margin-top:14px;max-width:480px">Masuk dengan akun pegawai RS Adam Malik atau daftar sebagai peserta baru.</p>
+      </div>
+      <div style="position:relative;z-index:1;display:flex;gap:14px;flex-wrap:wrap">
+        <a href="#" style="font-size:15.5px;font-weight:700;color:#0d3a39;text-decoration:none;padding:15px 28px;border-radius:12px;background:#c4d41a">Daftar Sekarang</a>
+        <a href="#" style="font-size:15.5px;font-weight:700;color:#fff;text-decoration:none;padding:15px 28px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.3)">Masuk</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="background:#0a3938;color:#cfe2e1">
+    <div style="max-width:1200px;margin:0 auto;padding:60px 32px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px">
+      <div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <img src="assets/logo.png" alt="SIPAHAM" style="width:40px;height:40px;object-fit:contain;background:#fff;border-radius:9px;padding:4px" />
+          <div style="font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px;color:#fff">SIPAHAM</div>
+        </div>
+        <p style="font-size:14px;line-height:1.6;color:#aecfce;max-width:280px">Sistem Pelatihan RSUP H. Adam Malik — wadah pengembangan kompetensi tenaga rumah sakit secara terintegrasi.</p>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;color:#fff;margin-bottom:14px">Navigasi</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="#katalog" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Katalog</a>
+          <a href="#jadwal" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Jadwal</a>
+          <a href="#berita" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Berita</a>
+          <a href="#faq" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">FAQ</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;color:#fff;margin-bottom:14px">Akun</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="#" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Masuk</a>
+          <a href="#" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Daftar peserta</a>
+          <a href="#" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Lupa kata sandi</a>
+          <a href="#" style="font-size:14px;color:#d6e8e7;text-decoration:none;font-weight:500" style-hover="color:#c4d41a">Bantuan</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans';font-weight:700;font-size:14px;color:#fff;margin-bottom:14px">Kontak</div>
+        <div style="font-size:14px;line-height:1.7;color:#aecfce">
+          Jl. Bunga Lau No.17, Medan<br>
+          Sumatera Utara 20136<br>
+          (061) 8364581<br>
+          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5135383a3d3025112238213039303c7f2322303c7f363e7f3835">[email&#160;protected]</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.08)">
+      <div style="max-width:1200px;margin:0 auto;padding:20px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:#92b3b2">
+        <span>© 2026 RSUP H. Adam Malik · Bagian Diklat</span>
+        <span>Kebijakan Privasi · Syarat &amp; Ketentuan</span>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { open: 0 };
+
+  renderVals() {
+    const categories = [
+      { icon: "🩺", bg: "#e4f1f0", title: "Keperawatan & Klinis", desc: "Asuhan keperawatan, keselamatan pasien, dan kompetensi klinis lanjutan.", count: 28 },
+      { icon: "📋", bg: "#eaf4d9", title: "Manajemen RS", desc: "Tata kelola, mutu pelayanan, dan kepemimpinan unit kerja.", count: 18 },
+      { icon: "🧑‍💼", bg: "#e4f1f0", title: "Administrasi & SDM", desc: "Pelayanan publik, kearsipan, dan pengembangan kepegawaian.", count: 22 },
+      { icon: "🦺", bg: "#eaf4d9", title: "K3 Rumah Sakit", desc: "Keselamatan kerja, kewaspadaan bencana, dan pengendalian infeksi.", count: 15 },
+      { icon: "💻", bg: "#e4f1f0", title: "Teknologi Informasi", desc: "Rekam medis elektronik, SIMRS, dan literasi digital.", count: 12 },
+      { icon: "🤝", bg: "#eaf4d9", title: "Pelayanan Prima", desc: "Komunikasi efektif, etika pelayanan, dan kepuasan pasien.", count: 19 },
+    ];
+
+    const steps = [
+      { no: "1", title: "Buat akun", desc: "Daftar dengan NIP pegawai atau data diri untuk peserta eksternal." },
+      { no: "2", title: "Pilih pelatihan", desc: "Telusuri katalog dan pilih modul sesuai peran serta kebutuhan." },
+      { no: "3", title: "Ikuti sesi", desc: "Belajar daring atau luring sesuai jadwal yang tersedia." },
+      { no: "4", title: "Dapatkan sertifikat", desc: "Selesaikan evaluasi dan unduh sertifikat digital resmi." },
+    ];
+
+    const schedule = [
+      { day: "08", month: "Jul", tag: "Keperawatan", mode: "Luring · Aula Diklat", title: "Pelatihan Keselamatan Pasien (Patient Safety)", slot: "Sisa 12 kuota" },
+      { day: "15", month: "Jul", tag: "Manajemen", mode: "Daring · Zoom", title: "Manajemen Mutu Pelayanan Rumah Sakit", slot: "Sisa 40 kuota" },
+      { day: "22", month: "Jul", tag: "K3RS", mode: "Luring · Gedung A", title: "Pencegahan & Pengendalian Infeksi (PPI)", slot: "Sisa 8 kuota" },
+      { day: "05", month: "Agu", tag: "Administrasi", mode: "Daring · LMS", title: "Pelayanan Publik & Komunikasi Efektif", slot: "Sisa 60 kuota" },
+    ];
+
+    const testimonials = [
+      { quote: "Materi pelatihannya relevan dengan tugas harian saya di bangsal. Sertifikatnya juga langsung terbit di akun.", initials: "SR", bg: "#e4f1f0", name: "Siti Rahmawati", role: "Perawat Pelaksana" },
+      { quote: "Sebagai kepala unit, SIPAHAM memudahkan saya memantau kompetensi seluruh anggota tim secara terpusat.", initials: "BH", bg: "#eaf4d9", name: "Budi Hartono", role: "Kepala Instalasi" },
+      { quote: "Proses pendaftaran cepat dan jadwalnya jelas. Pelatihan daringnya fleksibel di sela jam kerja.", initials: "DA", bg: "#e4f1f0", name: "Dewi Anggraini", role: "Staf Administrasi" },
+    ];
+
+    const news = [
+      { date: "18 Jun 2026", cat: "Pengumuman", title: "Pembukaan Pendaftaran Pelatihan Triwulan III 2026", excerpt: "Sebanyak 24 modul baru dibuka untuk seluruh tenaga rumah sakit mulai Juli." },
+      { date: "10 Jun 2026", cat: "Berita", title: "RS Adam Malik Raih Akreditasi Paripurna", excerpt: "Capaian ini didukung peningkatan kompetensi SDM melalui program SIPAHAM." },
+      { date: "02 Jun 2026", cat: "Pengumuman", title: "Sertifikat Kini Terintegrasi dengan SISDMK", excerpt: "Sertifikat pelatihan otomatis tercatat pada sistem informasi SDM kesehatan." },
+    ];
+
+    const faqData = [
+      { q: "Siapa saja yang bisa mendaftar?", a: "Seluruh pegawai RSUP H. Adam Malik (medis, non-medis, manajemen) serta peserta eksternal yang memenuhi syarat dapat mendaftar melalui SIPAHAM." },
+      { q: "Bagaimana cara masuk ke sistem?", a: "Pegawai dapat masuk menggunakan NIP dan kata sandi terdaftar. Peserta eksternal menggunakan email yang didaftarkan saat registrasi." },
+      { q: "Apakah pelatihan dipungut biaya?", a: "Sebagian besar pelatihan internal gratis bagi pegawai. Pelatihan tertentu untuk peserta eksternal dapat dikenakan biaya yang tertera pada detail modul." },
+      { q: "Apakah sertifikat diakui resmi?", a: "Ya. Sertifikat diterbitkan secara digital oleh Bagian Diklat RS Adam Malik dan dapat terintegrasi dengan SISDMK." },
+      { q: "Bagaimana jika berhalangan hadir pada sesi luring?", a: "Anda dapat mengajukan penjadwalan ulang melalui akun selama kuota batch berikutnya masih tersedia." },
+    ];
+
+    const faqs = faqData.map((f, i) => ({
+      q: f.q,
+      a: f.a,
+      open: this.state.open === i,
+      sign: this.state.open === i ? "−" : "+",
+      onToggle: () => this.setState(s => ({ open: s.open === i ? -1 : i })),
+    }));
+
+    return { categories, steps, schedule, testimonials, news, faqs };
+  }
+}
+</script>
+</body>
+</html>
