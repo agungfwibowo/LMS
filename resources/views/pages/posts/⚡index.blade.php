@@ -152,12 +152,21 @@ new #[Title('Berita')] class extends Component {
                         </flux:table.cell>
                         <flux:table.cell>
                             <div class="flex items-center gap-2">
+                                <flux:tooltip content="Lihat">
+                                <flux:link href="{{ url('/berita/' . $post->slug) }}"
+                                    target="_blank"
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-md hover:bg-zinc-800/5 dark:hover:bg-white/15"
+                                >
+                                    <flux:icon.arrow-top-right-on-square class="text-zinc-800 dark:text-white" variant="mini" />
+                                </flux:link>
+                                </flux:tooltip>
                                 <flux:button
                                     href="{{ route('posts.edit', $post) }}"
                                     wire:navigate
                                     size="sm"
                                     variant="ghost"
                                     icon="pencil"
+                                    tooltip="Edit"
                                 />
                                 <flux:button
                                     wire:click="confirmDelete({{ $post->id }})"
@@ -165,6 +174,7 @@ new #[Title('Berita')] class extends Component {
                                     variant="ghost"
                                     icon="trash"
                                     class="text-red-500 hover:text-red-600"
+                                    tooltip="Hapus"
                                 />
                             </div>
                         </flux:table.cell>

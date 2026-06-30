@@ -2,7 +2,9 @@
     $homeUrl = route('home');
     $isHome = request()->routeIs('home');
     $anchor = fn(string $id) => $isHome ? "#$id" : "$homeUrl#$id";
-    $isCurrent = fn(string $href) => !str_contains($href, '#') && request()->url() === url($href);
+    $isCurrent = fn(string $href, ?string $routes = null) =>
+        ($routes && request()->routeIs($routes)) ||
+        (!str_contains($href, '#') && request()->url() === url($href));
 @endphp
 
 @props([
@@ -11,7 +13,7 @@
         ['label' => 'Pelatihan',  'href' => $anchor('katalog'), 'section' => 'katalog'],
         ['label' => 'Alur Daftar','href' => $anchor('alur'),    'section' => 'alur'],
         ['label' => 'Jadwal',     'href' => $anchor('jadwal'),  'section' => 'jadwal'],
-        ['label' => 'Berita',     'href' => route('berita.index'), 'section' => null],
+        ['label' => 'Berita',     'href' => route('berita.index'), 'routes' => 'berita.*', 'section' => null],
         ['label' => 'FAQ',        'href' => $anchor('faq'),     'section' => 'faq'],
     ],
 ])
@@ -61,7 +63,7 @@
                 <a href="{{ $link['href'] }}"
                    @if($link['section'] ?? null)
                        :aria-current="activeSection === '{{ $link['section'] }}' ? 'page' : undefined"
-                   @elseif($isCurrent($link['href']))
+                   @elseif($isCurrent($link['href'], $link['routes'] ?? null))
                        aria-current="page"
                    @endif
                    class="nav-link text-[14.5px] font-semibold text-zinc-700 transition-colors hover:text-brand-900 dark:text-zinc-300 dark:hover:text-teal-400">
@@ -72,7 +74,7 @@
 
         {{-- Desktop actions --}}
         <div class="flex items-center gap-2">
-            <flux:separator vertical />
+            <flux:separator class="hidden lg:block" vertical />
 
             {{-- Dark mode toggle --}}
             <flux:button x-data x-on:click="$flux.dark = !$flux.dark" icon="moon" variant="subtle" size="sm" aria-label="Toggle dark mode" class="text-zinc-700! dark:text-zinc-300!" />
@@ -94,9 +96,12 @@
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
                         </flux:navmenu>
                     </flux:dropdown>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                        <input type="hidden" name="redirect" value="{{ url()->current() }}">
+                    </form>
                 @else
-                    <flux:button href="{{ route('login') }}" class="bg-lime! text-brand-950! border-transparent! shadow-[0_1px_2px_rgba(13,58,57,0.12)]! hover:opacity-90!">Masuk</flux:button>
+                    <flux:button href="{{ route('login', ['redirect' => url()->current()]) }}" class="bg-lime! text-brand-950! border-transparent! shadow-[0_1px_2px_rgba(13,58,57,0.12)]! hover:opacity-90!">Masuk</flux:button>
                     @if (Route::has('register'))
                         <!-- <flux:button href="{{ route('register') }}"
                             class="bg-lime! text-brand-950! border-transparent! shadow-[0_1px_2px_rgba(13,58,57,0.12)]! hover:opacity-90!">
@@ -123,7 +128,9 @@
             @foreach ($links as $link)
                 <a href="{{ $link['href'] }}" @click="open = false"
                    @if($link['section'] ?? null)
-                       :class="activeSection === '{{ $link['section'] }}' ? 'text-brand-900 font-bold bg-brand-50 dark:text-teal-300 dark:bg-teal-900/40' : 'text-zinc-700 dark:text-zinc-300'"
+                       :aria-current="activeSection === '{{ $link['section'] }}' ? 'page' : undefined"
+                   @elseif($isCurrent($link['href'], $link['routes'] ?? null))
+                       aria-current="page"
                    @endif
                    class="nav-link rounded-lg px-3 py-2.5 text-[14.5px] font-semibold transition-colors hover:bg-brand-50 hover:text-brand-900 dark:hover:bg-zinc-800 dark:hover:text-teal-400">
                     {{ $link['label'] }}
@@ -147,9 +154,12 @@
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</flux:navmenu.item>
                         </flux:navmenu>
                     </flux:dropdown>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                        <input type="hidden" name="redirect" value="{{ url()->current() }}">
+                    </form>
                 @else
-                    <flux:button href="{{ route('login') }}" variant="outline" class="w-full justify-center">Masuk</flux:button>
+                    <flux:button href="{{ route('login', ['redirect' => url()->current()]) }}" variant="outline" class="w-full justify-center">Masuk</flux:button>
                     @if (Route::has('register'))
                         <flux:button href="{{ route('register') }}" variant="primary" class="w-full justify-center">Daftar Sekarang</flux:button>
                     @endif

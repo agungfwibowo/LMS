@@ -1,6 +1,6 @@
 @props(['id', 'question'])
 
-<div x-data="{ id: {{ $id }} }" class="border-b border-zinc-200 dark:border-zinc-800">
+<div x-data="{ id: {{ $id }} }" {{ $attributes->merge(['class' => 'border-b border-zinc-200 dark:border-zinc-800']) }}>
     <button type="button" @click="active = id"
             class="flex w-full items-center justify-between gap-4 py-5 text-left"
             :aria-expanded="active === id">

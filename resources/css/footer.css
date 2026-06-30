@@ -1,0 +1,13 @@
+.bg-brand-950 {
+    .text-brand-900 {
+        color: white;
+    }
+}
+
+.dark {
+    .bg-brand-950 {
+        .text-brand-900 {
+            color: var(--color-teal-300);
+        }
+    }
+}

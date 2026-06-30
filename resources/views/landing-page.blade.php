@@ -54,7 +54,7 @@
         <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-[72px] lg:px-8">
 
             {{-- Left --}}
-            <div>
+            <div data-reveal="from-left">
                 <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[13px] font-semibold text-brand-800 dark:bg-teal-900/40 dark:text-teal-300">
                     <span class="inline-block size-[7px] rounded-full bg-brand-600 dark:bg-teal-400"></span>
                     Platform pelatihan resmi RSUP H. Adam Malik
@@ -101,7 +101,7 @@
             </div>
 
             {{-- Right — widget card --}}
-            <div class="relative">
+            <div class="relative" data-reveal="from-right" style="transition-delay:150ms">
                 <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-900">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
@@ -158,7 +158,7 @@
 
     {{-- ============ KATALOG ============ --}}
     <section id="katalog" class="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <div class="mb-10 flex flex-wrap items-end justify-between gap-6" data-reveal>
             <x-landing.section-heading
                 :center="false"
                 eyebrow="Katalog Pelatihan"
@@ -169,6 +169,7 @@
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($kategori as $item)
                 <a href="#jadwal"
+                   data-reveal style="transition-delay:{{ $loop->index * 80 }}ms"
                    class="group flex flex-col rounded-[18px] border border-zinc-200 bg-white p-6.5 transition-all hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(14,79,77,0.45)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
                     <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] text-2xl {{ $item['bg'] }}">{{ $item['icon'] }}</div>
                     <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item['title'] }}</h3>
@@ -182,7 +183,7 @@
     {{-- ============ ALUR ============ --}}
     <section id="alur" class="bg-brand-900">
         <div class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-            <div class="mb-12 text-center">
+            <div class="mb-12 text-center" data-reveal>
                 <x-landing.section-heading
                     :dark="true"
                     eyebrow="Cara Mendaftar"
@@ -194,7 +195,8 @@
                         variant="dark"
                         :number="$i + 1"
                         :title="$item['title']"
-                        :description="$item['description']" />
+                        :description="$item['description']"
+                        data-reveal :style="'transition-delay:'.($loop->index * 100).'ms'" />
                 @endforeach
             </div>
         </div>
@@ -202,7 +204,7 @@
 
     {{-- ============ JADWAL ============ --}}
     <section id="jadwal" class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-        <div class="mb-9 flex flex-wrap items-end justify-between gap-6">
+        <div class="mb-9 flex flex-wrap items-end justify-between gap-6" data-reveal>
             <x-landing.section-heading
                 :center="false"
                 eyebrow="Jadwal Mendatang"
@@ -219,7 +221,8 @@
                     :month="$sesi['month']"
                     :mode="$sesi['mode']"
                     :quota="$sesi['quota']"
-                    :status="$sesi['status']" />
+                    :status="$sesi['status']"
+                    data-reveal :style="'transition-delay:'.($loop->index * 80).'ms'" />
             @endforeach
         </div>
     </section>
@@ -227,14 +230,15 @@
     {{-- ============ TESTIMONI ============ --}}
     <section class="bg-brand-50 dark:bg-zinc-900">
         <div class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-            <div class="mb-12 text-center">
+            <div class="mb-12 text-center" data-reveal>
                 <x-landing.section-heading
                     eyebrow="Testimoni"
                     title="Apa kata peserta" />
             </div>
             <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($testimoni as $t)
-                    <div class="flex flex-col rounded-[18px] border border-zinc-200 bg-white p-7 dark:border-zinc-700 dark:bg-zinc-800/60">
+                    <div class="flex flex-col rounded-[18px] border border-zinc-200 bg-white p-7 dark:border-zinc-700 dark:bg-zinc-800/60"
+                         data-reveal style="transition-delay:{{ $loop->index * 100 }}ms">
                         <div class="mb-2 font-heading text-[30px] font-extrabold leading-none text-lime">&ldquo;</div>
                         <p class="mb-6 flex-1 text-[15.5px] leading-[1.65] text-zinc-700 dark:text-zinc-300">{{ $t['quote'] }}</p>
                         <div class="flex items-center gap-3">
@@ -252,7 +256,7 @@
 
     {{-- ============ BERITA ============ --}}
     <section id="berita" class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-        <div class="mb-9 flex flex-wrap items-end justify-between gap-6">
+        <div class="mb-9 flex flex-wrap items-end justify-between gap-6" data-reveal>
             <x-landing.section-heading
                 :center="false"
                 eyebrow="Berita & Pengumuman"
@@ -269,6 +273,7 @@
                     :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
                     :image="$post->featured_image ? Storage::url($post->featured_image) : null"
                     :href="route('berita.show', $post->slug)"
+                    data-reveal :style="'transition-delay:'.($loop->index * 100).'ms'"
                 />
             @empty
                 <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada berita.</p>
@@ -279,14 +284,15 @@
     {{-- ============ FAQ ============ --}}
     <section id="faq" class="bg-brand-50 dark:bg-zinc-900">
         <div class="mx-auto max-w-3xl px-4 py-[72px] sm:px-6 lg:px-8">
-            <div class="mb-11 text-center">
+            <div class="mb-11 text-center" data-reveal>
                 <x-landing.section-heading
                     eyebrow="FAQ"
                     title="Pertanyaan yang sering diajukan" />
             </div>
             <div x-data="{ active: 1 }">
                 @foreach ($faqs as $faq)
-                    <x-landing.faq :id="$loop->iteration" :question="$faq['question']">
+                    <x-landing.faq :id="$loop->iteration" :question="$faq['question']"
+                        data-reveal :style="'transition-delay:'.($loop->index * 60).'ms'">
                         {{ $faq['answer'] }}
                     </x-landing.faq>
                 @endforeach
@@ -296,7 +302,7 @@
 
     {{-- ============ CTA BAND ============ --}}
     <section class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-        <div class="relative flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14">
+        <div class="relative flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14" data-reveal>
             {{-- Decorative circle --}}
             <div class="pointer-events-none absolute -right-10 -top-10 size-60 rounded-full bg-lime/16"></div>
 
@@ -309,6 +315,12 @@
                 </p>
             </div>
 
+            @auth
+                <a href="{{ route('dashboard') }}"
+                class="inline-flex items-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90">
+                    Ambil Pelatihan
+                </a>
+            @else
             <div class="relative flex flex-wrap gap-3.5">
                 @if (Route::has('register'))
                     <a href="{{ route('register') }}"
@@ -321,6 +333,7 @@
                     Masuk
                 </a>
             </div>
+            @endauth
         </div>
     </section>
 

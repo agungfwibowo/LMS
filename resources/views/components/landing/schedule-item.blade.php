@@ -8,7 +8,7 @@
     'status' => 'Dibuka',
 ])
 
-<div class="flex items-center gap-6 rounded-2xl border border-zinc-100 bg-white p-5 transition-all hover:border-brand-100 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+<div {{ $attributes->merge(['class' => 'flex items-center gap-6 rounded-2xl border border-zinc-100 bg-white p-5 transition-all hover:border-brand-100 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900']) }}>
     {{-- Date box --}}
     <div class="flex shrink-0 flex-col items-center justify-center rounded-xl bg-brand-50 px-4 py-3 text-center min-w-18 dark:bg-teal-900/40">
         <div class="font-heading text-2xl font-extrabold leading-none text-brand-800">{{ $day }}</div>

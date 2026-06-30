@@ -45,7 +45,7 @@ $hiddenCount        = count($hiddenCategories);
 $hiddenTooltipText  = implode(', ', $hiddenCategories);
 @endphp
 
-<article class="group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900">
+<article {{ $attributes->merge(['class' => 'group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900']) }}>
     <div class="relative h-40 overflow-hidden">
         @if($image)
             <img src="{{ $image }}" alt="{{ $title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">

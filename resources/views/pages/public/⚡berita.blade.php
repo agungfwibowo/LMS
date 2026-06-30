@@ -54,7 +54,9 @@ new #[Layout('layouts.guest'), Title('Berita & Pengumuman')] class extends Compo
     </div>
 
     <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <nav class="mb-4 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <nav class="mb-4 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+             x-data="{ shown: false }" x-intersect.once="shown = true"
+             data-reveal="from-left" x-bind:class="shown && 'revealed'">
             <a href="{{ route('home') }}" class="hover:text-brand-600 dark:hover:text-brand-400">Beranda</a>
             <flux:icon name="chevron-right" class="size-4" />
             <span class="font-medium text-zinc-900 dark:text-white">Berita</span>
@@ -64,7 +66,9 @@ new #[Layout('layouts.guest'), Title('Berita & Pengumuman')] class extends Compo
             :center="false"
             eyebrow="Berita & Pengumuman"
             title="Kabar Terbaru Diklat"
-            subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RS Adam Malik." />
+            subtitle="Informasi pembukaan pelatihan, pengumuman, dan capaian terbaru RS Adam Malik."
+            x-data="{ shown: false }" x-intersect.once="shown = true"
+            data-reveal x-bind:class="shown && 'revealed'" style="transition-delay:100ms" />
     </div>
 </section>
 
@@ -125,15 +129,24 @@ new #[Layout('layouts.guest'), Title('Berita & Pengumuman')] class extends Compo
     @else
         <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($this->posts as $post)
-                <x-landing.news-card
-                    :title="$post->title"
-                    :category="$post->categories->first()?->name ?? 'Berita'"
-                    :categories="$post->categories->pluck('name')->toArray()"
-                    :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
-                    :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
-                    :image="$post->featured_image ? Storage::url($post->featured_image) : null"
-                    :href="route('berita.show', $post->slug)"
-                />
+                <div
+                    wire:key="post-{{ $post->id }}"
+                    x-data="{ shown: false }"
+                    x-intersect.once="shown = true"
+                    data-reveal
+                    :class="shown && 'revealed'"
+                    style="transition-delay: {{ $loop->index % 3 * 80 }}ms"
+                >
+                    <x-landing.news-card
+                        :title="$post->title"
+                        :category="$post->categories->first()?->name ?? 'Berita'"
+                        :categories="$post->categories->pluck('name')->toArray()"
+                        :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
+                        :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
+                        :image="$post->featured_image ? Storage::url($post->featured_image) : null"
+                        :href="route('berita.show', $post->slug)"
+                    />
+                </div>
             @endforeach
         </div>
 

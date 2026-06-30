@@ -53,6 +53,29 @@ class FigureBlot extends BlockEmbed {
 
 Quill.register(FigureBlot)
 
+let revealObserver = null
+
+function observeRevealElements() {
+    if (!revealObserver) return
+    document.querySelectorAll('[data-reveal]:not(.revealed)').forEach(el => revealObserver.observe(el))
+}
+
+document.addEventListener('alpine:initialized', () => {
+    revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+            if (isIntersecting) {
+                target.classList.add('revealed')
+                revealObserver.unobserve(target)
+            }
+        })
+    }, { threshold: 0.12 })
+
+    observeRevealElements()
+})
+
+document.addEventListener('livewire:navigated', observeRevealElements)
+document.addEventListener('alpine:navigated', observeRevealElements)
+
 document.addEventListener('alpine:init', () => {
     window.Alpine.plugin(Clipboard)
     window.Alpine.plugin(Intersect)

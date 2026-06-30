@@ -8,10 +8,8 @@
             {{-- Brand --}}
             <div class="lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-3" wire:navigate>
-                    <span class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/12">
-                        <img src="{{ asset('logo.png') }}" alt="SIPAHAM" class="size-7 object-contain">
-                    </span>
-                    <span class="font-heading text-[19px] font-extrabold text-white">SIPAHAM</span>
+                    {{-- Brand --}}
+                    <x-landing.brand />
                 </a>
                 <p class="mt-4 max-w-70 text-sm leading-relaxed text-brand-200">
                     Sistem Pelatihan RSUP H. Adam Malik — wadah pengembangan kompetensi tenaga rumah sakit secara terintegrasi.

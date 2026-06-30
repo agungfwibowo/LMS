@@ -15,7 +15,7 @@ use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
-new #[Title('Berita')] class extends Component {
+new class extends Component {
     use WithFileUploads;
 
     public ?Post $post = null;
@@ -157,6 +157,15 @@ new #[Title('Berita')] class extends Component {
 
         $this->redirectRoute('posts.edit', ['post' => $this->post], navigate: true);
     }
+    
+    public function render()
+    {
+        return $this->view()->title(
+            $this->post
+                ? 'Edit Berita - ' . $this->post->title
+                : 'Tambah Berita'
+        );
+    }
 }; ?>
 
 <div
@@ -167,13 +176,14 @@ new #[Title('Berita')] class extends Component {
 >
     <div class="flex items-center gap-3">
         <flux:button href="{{ route('posts.index') }}" wire:navigate variant="ghost" icon="arrow-left" size="sm" />
-        <flux:heading size="xl" level="1">{{ $post ? 'Edit Berita' : 'Tambah Berita' }}</flux:heading>
+        <flux:heading size="xl" level="1">{{ $post ? 'Edit Berita' : 'Tambah Berita' }} 
+        </flux:heading>
         <flux:spacer />
         <flux:button
             type="button"
             x-on:click="$wire.openPreview()"
             variant="ghost"
-            icon="eye"
+            icon="magnifying-glass"
             size="sm"
         >Preview</flux:button>
     </div>
@@ -187,13 +197,21 @@ new #[Title('Berita')] class extends Component {
                 placeholder="Masukkan judul berita..."
                 required
             />
-
-            <flux:input
-                wire:model="slug"
-                label="Slug URL"
-                placeholder="judul-berita"
-                required
-            />
+            <div class="space-y-1">
+                <flux:label class="pb-2">Slug URL 
+                    <flux:link href="{{ url('/berita/' . $slug) }}"
+                        target="_blank"
+                        class="inline-flex items-center text-xs"
+                    >
+                        <flux:icon.arrow-up-right variant="mini"/>
+                    </flux:link>
+                </flux:label>
+                <flux:input
+                    wire:model="slug"
+                    placeholder="judul-berita"
+                    required
+                />
+            </div>
 
             <div>
                 <flux:label>Konten</flux:label>
@@ -351,11 +369,11 @@ new #[Title('Berita')] class extends Component {
         </div>
     </form>
 
-    <flux:modal name="post-preview" class="w-full max-w-6xl">
+    <flux:modal name="post-preview" class="w-full max-w-6xl !p-0">
         <div class="flex max-h-[85vh] flex-col">
-            <div class="flex shrink-0 items-center gap-2 border-b border-zinc-200 px-6 py-3 text-sm font-medium text-zinc-500 dark:border-zinc-800">
-                <flux:icon name="eye" class="size-4" />
-                Preview Berita
+            <div class="flex shrink-0 items-center gap-2 border-b border-zinc-200 px-4 py-4 text-sm font-medium text-zinc-500 dark:border-zinc-800">
+                <flux:icon.magnifying-glass class="size-5" />
+                <h4 class="text-lg">Preview Berita</h4>
                 <flux:badge x-show="isDirty" color="yellow" size="sm">Belum disimpan</flux:badge>
             </div>
 
@@ -416,10 +434,10 @@ new #[Title('Berita')] class extends Component {
                 {{-- Body --}}
                 <div class="px-8 py-8">
                     @if ($excerpt)
-                        <p class="mb-8 text-lg font-medium leading-relaxed text-zinc-600 dark:text-zinc-300">
+                        <!-- <p class="mb-8 text-lg font-medium leading-relaxed text-zinc-600 dark:text-zinc-300">
                             {{ $excerpt }}
                         </p>
-                        <hr class="mb-8 border-zinc-200 dark:border-zinc-800">
+                        <hr class="mb-8 border-zinc-200 dark:border-zinc-800"> -->
                     @endif
 
                     <div class="prose-berita text-zinc-700 dark:text-zinc-300">

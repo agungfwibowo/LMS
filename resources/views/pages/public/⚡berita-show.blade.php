@@ -55,6 +55,11 @@ new #[Layout('layouts.guest')] class extends Component {
             ->oldest('created_at')
             ->first();
     }
+
+    public function render()
+    {
+        return $this->view()->title($this->post->title);
+    }
 }; ?>
 
 <div>
@@ -64,7 +69,7 @@ new #[Layout('layouts.guest')] class extends Component {
     <div class="absolute -right-24 -top-24 size-96 rounded-full bg-brand-200/40 blur-3xl dark:bg-brand-800/20"></div>
 </div>
 <section class="relative overflow-hidden pt-16 dark:border-zinc-800">
-    <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl py-8 px-6 lg:px-8" data-reveal>
         {{-- Breadcrumb --}}
         <nav class="mb-6 flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
             <a href="{{ route('home') }}" class="hover:text-brand-600 dark:hover:text-brand-400">Beranda</a>
@@ -112,14 +117,24 @@ new #[Layout('layouts.guest')] class extends Component {
                     {{ $post->tags->pluck('name')->join(', ') }}
                 </span>
             @endif
+            @auth
+            <flux:button
+                href="{{ route('posts.edit', $post) }}"
+                wire:navigate
+                size="sm"
+                variant="filled"
+                icon="pencil"
+                class="ms-0 md:ms-auto backdrop-blur-sm !text-teal-500 border border-teal-600/50"
+            >Edit</flux:button>
+            @endauth
         </div>
-
     </div>
 </section>
 
+
 {{-- ================= FEATURED IMAGE ================= --}}
 @if ($post->featured_image)
-    <div class="mx-auto max-w-4xl px-4 pt-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl px-0 lg:px-8" data-reveal style="transition-delay:100ms">
         <div class="overflow-hidden border border-zinc-200 shadow-md dark:border-zinc-800">
             <img
                 src="{{ Storage::url($post->featured_image) }}"
@@ -132,8 +147,9 @@ new #[Layout('layouts.guest')] class extends Component {
 
 {{-- ================= CONTENT ================= --}}
 <article
-    class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8"
+    class="mx-auto max-w-3xl px-6 pt-2 lg:pt-4 pb-10 sm:pb-6 lg:pb-8"
     x-data="{ lightbox: null }"
+    data-reveal
 >
 
     {{-- Excerpt / lead --}}
@@ -190,7 +206,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
 {{-- ================= PREV / NEXT ================= --}}
 @if ($this->prevPost || $this->nextPost)
-    <nav>
+    <nav data-reveal>
         <div class="mx-auto grid max-w-4xl grid-cols-1 gap-4 px-4 py-8 sm:grid-cols-2 sm:px-6 lg:px-8">
 
             {{-- Next --}}

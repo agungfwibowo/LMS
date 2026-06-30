@@ -6,7 +6,7 @@
     'dark' => false,
 ])
 
-<div class="{{ $center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl' }}">
+<div {{ $attributes->merge(['class' => $center ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl']) }}>
     @if ($eyebrow)
         <div class="text-[13.5px] font-bold uppercase tracking-[0.06em] mb-3 {{ $dark ? 'text-lime' : 'text-brand-600' }}">
             {{ $eyebrow }}

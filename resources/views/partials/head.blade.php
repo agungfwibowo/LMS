@@ -3,7 +3,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <title>
-    {{ filled($title ?? null) ? $title.' - '.config('app.name', 'Laravel') : config('app.name', 'Laravel') }}
+    {{ filled($title ?? null) ? $title.' - '.config('app.name', 'SIPAHAM') : config('app.name', 'SIPAHAM') }}
 </title>
 
 <link rel="icon" href="/favicon.ico?v=2" sizes="any">

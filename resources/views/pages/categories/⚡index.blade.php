@@ -20,7 +20,7 @@ new #[Title('Kategori')] class extends Component {
     #[Computed]
     public function categories()
     {
-        return Category::withCount('posts')->orderBy('name')->paginate(3);
+        return Category::withCount('posts')->orderBy('name')->paginate(10);
     }
 
     public function updatedName(): void

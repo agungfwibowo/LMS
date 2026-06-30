@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ __('Welcome') }} - {{ config('app.name', 'Laravel') }}</title>
+        <title>{{ __('Welcome') }} - {{ config('app.name', 'SIPAHAM') }}</title>
 
         <link rel="icon" href="/favicon.ico?v=2" sizes="any">
         <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
