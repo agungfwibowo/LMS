@@ -45,10 +45,10 @@ $hiddenCount        = count($hiddenCategories);
 $hiddenTooltipText  = implode(', ', $hiddenCategories);
 @endphp
 
-<article {{ $attributes->merge(['class' => 'group flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900']) }}>
+<x-ui.card as="article" hover padding="p-0" {{ $attributes->class('flex flex-col overflow-hidden') }}>
     <div class="relative h-40 overflow-hidden">
         @if($image)
-            <img src="{{ $image }}" alt="{{ $title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+            <img src="{{ $image }}" alt="{{ $title }}" class="h-full w-full object-cover transition-transform duration-300 motion-safe:group-hover:scale-105">
         @else
             <div class="flex h-full items-center justify-center gap-4 bg-linear-to-br from-brand-500 to-brand-700">
                 @foreach($resolvedIcons as $ic)
@@ -58,11 +58,11 @@ $hiddenTooltipText  = implode(', ', $hiddenCategories);
         @endif
         <div class="absolute left-4 top-4 flex flex-wrap gap-1">
             @foreach($visibleCategories as $cat)
-                <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur">{{ $cat }}</span>
+                <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur dark:bg-white/10 dark:text-brand-300">{{ $cat }}</span>
             @endforeach
             @if($hiddenCount > 0)
                 <flux:tooltip content="{{ $hiddenTooltipText }}">
-                    <span class="cursor-default rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur">+{{ $hiddenCount }}</span>
+                    <span class="cursor-default rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-700 backdrop-blur dark:bg-white/10 dark:text-brand-300">+{{ $hiddenCount }}</span>
                 </flux:tooltip>
             @endif
         </div>
@@ -74,7 +74,7 @@ $hiddenTooltipText  = implode(', ', $hiddenCategories);
         <p class="mt-2 flex-1 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{{ $excerpt }}</p>
         <a href="{{ $href }}" class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400">
             Baca selengkapnya
-            <flux:icon name="arrow-right" class="size-4 transition-transform group-hover:translate-x-0.5" />
+            <flux:icon name="arrow-right" class="size-4 transition-transform motion-safe:group-hover:translate-x-0.5" />
         </a>
     </div>
-</article>
+</x-ui.card>

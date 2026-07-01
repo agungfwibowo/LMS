@@ -19,8 +19,13 @@
     transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-[data-reveal="from-left"]  { transform: translateX(-36px); }
-[data-reveal="from-right"] { transform: translateX(36px); }
+/* Horizontal reveals only from md up. On mobile these are full-width elements;
+   translateX would push them past the viewport edge and give <body> a
+   horizontal scrollbar, so below md they keep the default vertical reveal. */
+@media (min-width: 768px) {
+    [data-reveal="from-left"]  { transform: translateX(-36px); }
+    [data-reveal="from-right"] { transform: translateX(36px); }
+}
 
 [data-reveal].revealed {
   opacity: 1;

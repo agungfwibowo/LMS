@@ -48,9 +48,10 @@
         }
     }"
     :style="scrolled
-        ? (dark ? 'background:rgba(24,24,27,0.97);box-shadow:0 1px 12px rgba(0,0,0,0.3)' : 'background:rgba(245,248,248,0.97);box-shadow:0 1px 12px rgba(14,79,77,0.08)')
+        ? (dark ? 'background:rgba(24,24,27,0.80);box-shadow:0 1px 12px rgba(0,0,0,0.3)' : 'background:rgba(245,248,248,0.80);box-shadow:0 1px 12px rgba(14,79,77,0.08)')
         : (dark ? 'background:rgba(24,24,27,0.85)' : 'background:rgba(245,248,248,0.85)')"
-    class="fixed inset-x-0 top-0 z-50 border-b border-zinc-200 backdrop-blur-md transition-[background,box-shadow] duration-200 dark:border-zinc-800"
+    :class="{ 'backdrop-blur-md': scrolled }"
+    class="fixed inset-x-0 top-0 z-50 border-b border-zinc-200 transition-[background,box-shadow,backdrop-filter] duration-200 dark:border-zinc-800"
 >
     <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
 

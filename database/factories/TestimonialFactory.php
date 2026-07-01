@@ -1,0 +1,34 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Testimonial;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Testimonial>
+ */
+class TestimonialFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->name(),
+            'role' => fake()->jobTitle(),
+            'quote' => fake()->paragraph(),
+            'avatar_color' => fake()->randomElement(['brand', 'lime']),
+            'rating' => fake()->randomElement([3.0, 3.5, 4.0, 4.5, 5.0]),
+            'is_active' => true,
+        ];
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(['is_active' => false]);
+    }
+}

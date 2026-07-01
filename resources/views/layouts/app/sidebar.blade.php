@@ -18,6 +18,7 @@
                 </flux:sidebar.group>
 
                 <x-sidebar.berita-nav />
+                <x-sidebar.konten-nav />
             </flux:sidebar.nav>
 
             <flux:spacer />

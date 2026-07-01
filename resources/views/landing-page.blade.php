@@ -1,6 +1,8 @@
 @php
     use App\Enums\PostStatus;
+    use App\Models\Faq;
     use App\Models\Post;
+    use App\Models\Testimonial;
 
     $kategori = [
         ['icon' => '🩺', 'bg' => 'bg-brand-50', 'title' => 'Keperawatan & Klinis',  'count' => 28, 'description' => 'Asuhan keperawatan, keselamatan pasien, dan kompetensi klinis lanjutan.'],
@@ -25,11 +27,7 @@
         ['title' => 'Pelayanan Publik & Komunikasi Efektif',          'category' => 'Administrasi','day' => '05', 'month' => 'Agu', 'mode' => 'Daring · LMS',          'quota' => 'Sisa 60 kuota', 'status' => 'Dibuka'],
     ];
 
-    $testimoni = [
-        ['quote' => 'Materi pelatihannya relevan dengan tugas harian saya di bangsal. Sertifikatnya juga langsung terbit di akun.', 'initials' => 'SR', 'bg' => 'bg-brand-50', 'name' => 'Siti Rahmawati', 'role' => 'Perawat Pelaksana'],
-        ['quote' => 'Sebagai kepala unit, SIPAHAM memudahkan saya memantau kompetensi seluruh anggota tim secara terpusat.', 'initials' => 'BH', 'bg' => 'bg-lime-50',  'name' => 'Budi Hartono', 'role' => 'Kepala Instalasi'],
-        ['quote' => 'Proses pendaftaran cepat dan jadwalnya jelas. Pelatihan daringnya fleksibel di sela jam kerja.', 'initials' => 'DA', 'bg' => 'bg-brand-50', 'name' => 'Dewi Anggraini', 'role' => 'Staf Administrasi'],
-    ];
+    $testimoni = Testimonial::active()->latest()->get();
 
     $berita = Post::query()
         ->where('status', PostStatus::Published)
@@ -38,13 +36,7 @@
         ->limit(3)
         ->get();
 
-    $faqs = [
-        ['question' => 'Siapa saja yang bisa mendaftar?',             'answer' => 'Seluruh pegawai RSUP H. Adam Malik (medis, non-medis, manajemen) serta peserta eksternal yang memenuhi syarat dapat mendaftar melalui SIPAHAM.'],
-        ['question' => 'Bagaimana cara masuk ke sistem?',             'answer' => 'Pegawai dapat masuk menggunakan NIP dan kata sandi terdaftar. Peserta eksternal menggunakan email yang didaftarkan saat registrasi.'],
-        ['question' => 'Apakah pelatihan dipungut biaya?',            'answer' => 'Sebagian besar pelatihan internal gratis bagi pegawai. Pelatihan tertentu untuk peserta eksternal dapat dikenakan biaya yang tertera pada detail modul.'],
-        ['question' => 'Apakah sertifikat diakui resmi?',             'answer' => 'Ya. Sertifikat diterbitkan secara digital oleh Bagian Diklat RS Adam Malik dan dapat terintegrasi dengan SISDMK.'],
-        ['question' => 'Bagaimana jika berhalangan hadir pada sesi luring?', 'answer' => 'Anda dapat mengajukan penjadwalan ulang melalui akun selama kuota batch berikutnya masih tersedia.'],
-    ];
+    $faqs = Faq::active()->orderBy('order')->get();
 @endphp
 
 <x-layouts::guest :title="__('Beranda')">
@@ -168,14 +160,15 @@
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @foreach ($kategori as $item)
-                <a href="#jadwal"
-                   data-reveal style="transition-delay:{{ $loop->index * 80 }}ms"
-                   class="group flex flex-col rounded-[18px] border border-zinc-200 bg-white p-6.5 transition-all hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(14,79,77,0.45)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
-                    <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] text-2xl {{ $item['bg'] }}">{{ $item['icon'] }}</div>
-                    <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item['title'] }}</h3>
-                    <p class="mt-2 flex-1 text-[14.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">{{ $item['description'] }}</p>
-                    <div class="mt-4 text-[13px] font-semibold text-brand-600">{{ $item['count'] }} modul</div>
-                </a>
+                <div data-reveal style="transition-delay:{{ $loop->index * 80 }}ms" class="flex">
+                    <a href="#jadwal"
+                       class="group flex w-full flex-col rounded-[18px] border border-zinc-200 bg-white p-6.5 transition-all hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(14,79,77,0.45)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
+                        <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] text-2xl {{ $item['bg'] }}">{{ $item['icon'] }}</div>
+                        <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item['title'] }}</h3>
+                        <p class="mt-2 flex-1 text-[14.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">{{ $item['description'] }}</p>
+                        <div class="mt-4 text-[13px] font-semibold text-brand-600">{{ $item['count'] }} modul</div>
+                    </a>
+                </div>
             @endforeach
         </div>
     </section>
@@ -228,6 +221,27 @@
     </section>
 
     {{-- ============ TESTIMONI ============ --}}
+    @php $testimoniCount = $testimoni->count(); @endphp
+
+    {{-- Marquee animation — mr-5 on each card ensures -50% is a perfect loop point --}}
+    <style>
+        @keyframes testimonial-scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+        .testimonial-track {
+            width: max-content;
+            animation: testimonial-scroll var(--dur, 24s) linear infinite;
+            will-change: transform;
+        }
+        .testimonial-track.is-paused {
+            animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .testimonial-track { animation: none; }
+        }
+    </style>
+
     <section class="bg-brand-50 dark:bg-zinc-900">
         <div class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
             <div class="mb-12 text-center" data-reveal>
@@ -235,21 +249,60 @@
                     eyebrow="Testimoni"
                     title="Apa kata peserta" />
             </div>
-            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($testimoni as $t)
-                    <div class="flex flex-col rounded-[18px] border border-zinc-200 bg-white p-7 dark:border-zinc-700 dark:bg-zinc-800/60"
-                         data-reveal style="transition-delay:{{ $loop->index * 100 }}ms">
-                        <div class="mb-2 font-heading text-[30px] font-extrabold leading-none text-lime">&ldquo;</div>
-                        <p class="mb-6 flex-1 text-[15.5px] leading-[1.65] text-zinc-700 dark:text-zinc-300">{{ $t['quote'] }}</p>
-                        <div class="flex items-center gap-3">
-                            <div class="{{ $t['bg'] }} flex size-11 items-center justify-center rounded-full font-heading text-sm font-bold text-brand-900 dark:text-teal-300">{{ $t['initials'] }}</div>
-                            <div>
-                                <div class="text-[14.5px] font-bold text-brand-950 dark:text-white">{{ $t['name'] }}</div>
-                                <div class="text-[13px] text-zinc-500 dark:text-zinc-400">{{ $t['role'] }}</div>
-                            </div>
-                        </div>
+
+            <div
+                x-data="{
+                    paused: false,
+                    _w: window.innerWidth,
+                    get sliding() {
+                        return this._w >= 1024 ? {{ $testimoniCount }} > 3 : {{ $testimoniCount }} > 1
+                    },
+                    init() {
+                        window.addEventListener('resize', () => { this._w = window.innerWidth })
+                    }
+                }"
+                class="relative"
+            >
+                {{-- Fade edges (hidden until slider activates) --}}
+                <div
+                    x-show="sliding"
+                    x-cloak
+                    class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-linear-to-r from-brand-50 to-transparent dark:from-zinc-900"
+                ></div>
+                <div
+                    x-show="sliding"
+                    x-cloak
+                    class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-linear-to-l from-brand-50 to-transparent dark:from-zinc-900"
+                ></div>
+
+                {{-- Grid layout: visible when slider is off --}}
+                <div x-show="!sliding" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($testimoni as $t)
+                        <x-landing.testimonial-card
+                            :t="$t"
+                            data-reveal
+                            style="transition-delay:{{ $loop->index * 100 }}ms"
+                        />
+                    @endforeach
+                </div>
+
+                {{-- Slider layout: mr-5 on each card replaces gap so -50% = exact one-set width --}}
+                <div x-show="sliding" x-cloak class="overflow-hidden">
+                    <div
+                        class="testimonial-track flex"
+                        :class="{ 'is-paused': paused }"
+                        style="--dur: {{ $testimoniCount * 8 }}s"
+                        @mouseenter="paused = true"
+                        @mouseleave="paused = false"
+                    >
+                        @foreach ($testimoni as $t)
+                            <x-landing.testimonial-card :t="$t" class="w-80 flex-none mr-5 sm:w-96" />
+                        @endforeach
+                        @foreach ($testimoni as $t)
+                            <x-landing.testimonial-card :t="$t" class="w-80 flex-none mr-5 sm:w-96" aria-hidden="true" />
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </section>
@@ -266,15 +319,17 @@
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($berita as $post)
-                <x-landing.news-card
-                    :title="$post->title"
-                    :categories="$post->categories->pluck('name')->toArray()"
-                    :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
-                    :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
-                    :image="$post->featured_image ? Storage::url($post->featured_image) : null"
-                    :href="route('berita.show', $post->slug)"
-                    data-reveal :style="'transition-delay:'.($loop->index * 100).'ms'"
-                />
+                <div data-reveal style="transition-delay:{{ $loop->index * 100 }}ms" class="flex">
+                    <x-landing.news-card
+                        :title="$post->title"
+                        :categories="$post->categories->pluck('name')->toArray()"
+                        :date="($post->published_at ?? $post->created_at)->translatedFormat('d M Y')"
+                        :excerpt="$post->excerpt != '' ? $post->excerpt : Str::limit(strip_tags($post->content), 120)"
+                        :image="$post->featured_image ? Storage::url($post->featured_image) : null"
+                        :href="route('berita.show', $post->slug)"
+                        class="w-full"
+                    />
+                </div>
             @empty
                 <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada berita.</p>
             @endforelse
@@ -282,7 +337,7 @@
     </section>
 
     {{-- ============ FAQ ============ --}}
-    <section id="faq" class="bg-brand-50 dark:bg-zinc-900">
+    <section id="faq" class="bg-white dark:bg-zinc-900">
         <div class="mx-auto max-w-3xl px-4 py-[72px] sm:px-6 lg:px-8">
             <div class="mb-11 text-center" data-reveal>
                 <x-landing.section-heading
@@ -291,9 +346,9 @@
             </div>
             <div x-data="{ active: 1 }">
                 @foreach ($faqs as $faq)
-                    <x-landing.faq :id="$loop->iteration" :question="$faq['question']"
+                    <x-landing.faq :id="$loop->iteration" :question="$faq->question"
                         data-reveal :style="'transition-delay:'.($loop->index * 60).'ms'">
-                        {{ $faq['answer'] }}
+                        {{ $faq->answer }}
                     </x-landing.faq>
                 @endforeach
             </div>
@@ -301,8 +356,8 @@
     </section>
 
     {{-- ============ CTA BAND ============ --}}
-    <section class="mx-auto max-w-7xl px-4 py-[72px] sm:px-6 lg:px-8">
-        <div class="relative flex flex-wrap items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14" data-reveal>
+    <section class="mx-auto bg-brand-50 px-4 py-[72px] sm:px-6 lg:px-8">
+        <div class="relative flex flex-wrap max-w-[1216px] m-auto items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14" data-reveal>
             {{-- Decorative circle --}}
             <div class="pointer-events-none absolute -right-10 -top-10 size-60 rounded-full bg-lime/16"></div>
 
