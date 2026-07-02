@@ -19,6 +19,9 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
     #[Url]
     public string $category = '';
 
+    #[Url]
+    public string $view = 'kalender';
+
     public ?int $selectedDay = null;
 
     public function mount(): void
@@ -197,8 +200,38 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
     </div>
 </section>
 
-{{-- ================= GRID KALENDER ================= --}}
+{{-- ================= TAB: KALENDER / AGENDA ================= --}}
 <section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div
+        role="tablist"
+        aria-label="Tampilan kalender"
+        class="mb-8 inline-flex rounded-full border border-zinc-200 bg-zinc-100 p-1 dark:border-zinc-800 dark:bg-zinc-900"
+    >
+        <button
+            type="button"
+            role="tab"
+            aria-selected="{{ $view === 'kalender' ? 'true' : 'false' }}"
+            wire:click="$set('view', 'kalender')"
+            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'kalender' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+        >
+            <flux:icon name="calendar-days" class="size-4" />
+            Kalender
+        </button>
+        <button
+            type="button"
+            role="tab"
+            aria-selected="{{ $view === 'agenda' ? 'true' : 'false' }}"
+            wire:click="$set('view', 'agenda')"
+            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'agenda' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+        >
+            <flux:icon name="list-bullet" class="size-4" />
+            Agenda
+        </button>
+    </div>
+
+    @if ($view === 'kalender')
+    {{-- ================= PANEL: GRID KALENDER ================= --}}
+    <div role="tabpanel">
     <div
         x-data="{ shown: false }" x-intersect.once="shown = true"
         data-reveal x-bind:class="shown && 'revealed'"
@@ -255,9 +288,11 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
             </div>
         </div>
     </div>
-
-    {{-- ================= AGENDA BULAN INI ================= --}}
-    <div class="mt-12" x-data="{ shown: false }" x-intersect.once="shown = true">
+    </div>
+    @else
+    {{-- ================= PANEL: AGENDA BULAN INI ================= --}}
+    <div role="tabpanel">
+    <div x-data="{ shown: false }" x-intersect.once="shown = true">
         <h3 data-reveal x-bind:class="shown && 'revealed'" class="mb-5 font-heading text-xl font-bold text-brand-950 dark:text-white">
             Agenda {{ $this->monthLabel }}
         </h3>
@@ -288,6 +323,8 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
             @endforelse
         </div>
     </div>
+    </div>
+    @endif
 </section>
 
 {{-- ================= MODAL DETAIL HARI ================= --}}
