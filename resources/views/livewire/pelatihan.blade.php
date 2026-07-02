@@ -21,6 +21,45 @@
         </flux:table.columns>
         <flux:table.rows>
             @forelse ($this->pelatihans as $pelatihan)
+                @if ($quickEditId === $pelatihan->id)
+                <flux:table.row :key="'qe-' . $pelatihan->id">
+                    <flux:table.cell colspan="8" class="!p-0">
+                        <form wire:submit="saveQuickEdit" class="space-y-4 bg-zinc-50 p-4 dark:bg-zinc-800/50">
+                            <div class="flex items-center gap-2 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
+                                <flux:icon.pencil-square class="size-4" />
+                                Edit Cepat
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                <flux:input wire:model="qeTitle" label="Judul" />
+                                <flux:input wire:model="qeSlug" label="Slug" />
+                            </div>
+
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                <flux:select wire:model="qeCategoryId" label="Kategori" placeholder="Tanpa kategori">
+                                    @foreach ($this->categories as $category)
+                                        <flux:select.option :value="$category->id">{{ $category->name }}</flux:select.option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:select wire:model="qeStatus" label="Status">
+                                    @foreach (App\Enums\PelatihanStatus::cases() as $s)
+                                        <flux:select.option value="{{ $s->value }}">{{ $s->label() }}</flux:select.option>
+                                    @endforeach
+                                </flux:select>
+                                <flux:field variant="inline" class="pt-6">
+                                    <flux:checkbox wire:model="qeIsActive" />
+                                    <flux:label>Aktif</flux:label>
+                                </flux:field>
+                            </div>
+
+                            <div class="flex items-center gap-2 pt-1">
+                                <flux:button type="submit" variant="primary" size="sm">Simpan</flux:button>
+                                <flux:button type="button" wire:click="cancelQuickEdit" variant="ghost" size="sm">Batal</flux:button>
+                            </div>
+                        </form>
+                    </flux:table.cell>
+                </flux:table.row>
+                @else
                 <flux:table.row :key="$pelatihan->id">
                     <flux:table.cell>
                         @if ($pelatihan->thumbnail_url)
@@ -64,7 +103,12 @@
                     </flux:table.cell>
                     <flux:table.cell>
                         <div class="flex items-center gap-2">
-                            <flux:button href="{{ route('pelatihan.edit', $pelatihan) }}" wire:navigate size="sm" variant="ghost" icon="pencil" />
+                            <flux:button
+                                wire:click="startQuickEdit({{ $pelatihan->id }})"
+                                size="sm" variant="ghost" icon="pencil-square"
+                                tooltip="Edit Cepat"
+                            />
+                            <flux:button href="{{ route('pelatihan.edit', $pelatihan) }}" wire:navigate size="sm" variant="ghost" icon="pencil" tooltip="Edit Lengkap" />
                             <flux:button
                                 wire:click="copy({{ $pelatihan->id }})"
                                 size="sm" variant="ghost" icon="document-duplicate"
@@ -78,6 +122,7 @@
                         </div>
                     </flux:table.cell>
                 </flux:table.row>
+                @endif
             @empty
                 <flux:table.row>
                     <flux:table.cell colspan="8" class="py-8 text-center text-zinc-500">
