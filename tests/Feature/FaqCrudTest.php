@@ -23,7 +23,7 @@ test('faq list is displayed', function () {
 test('can create a new faq', function () {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test('pages::faqs.index')
+    Livewire::test(App\Livewire\Actions\Faq::class)
         ->call('openCreate')
         ->set('question', 'Siapa bisa daftar?')
         ->set('answer', 'Semua pegawai RS Adam Malik.')
@@ -36,7 +36,7 @@ test('can edit an existing faq', function () {
     $this->actingAs(User::factory()->create());
     $faq = Faq::factory()->create(['question' => 'Pertanyaan lama']);
 
-    Livewire::test('pages::faqs.index')
+    Livewire::test(App\Livewire\Actions\Faq::class)
         ->call('edit', $faq->id)
         ->set('question', 'Pertanyaan baru')
         ->call('save');
@@ -48,16 +48,28 @@ test('can toggle faq active status', function () {
     $this->actingAs(User::factory()->create());
     $faq = Faq::factory()->create(['is_active' => true]);
 
-    Livewire::test('pages::faqs.index')->call('toggleActive', $faq->id);
+    Livewire::test(App\Livewire\Actions\Faq::class)->call('toggleActive', $faq->id);
 
     expect($faq->fresh()->is_active)->toBeFalse();
+});
+
+test('can copy a faq as an inactive draft', function () {
+    $this->actingAs(User::factory()->create());
+    $faq = Faq::factory()->create(['question' => 'Bagaimana cara daftar?', 'is_active' => true]);
+
+    Livewire::test(App\Livewire\Actions\Faq::class)->call('copy', $faq->id);
+
+    $copy = Faq::where('question', 'Bagaimana cara daftar? (Salinan)')->first();
+    expect($copy)->not->toBeNull()
+        ->and($copy->answer)->toBe($faq->answer)
+        ->and($copy->is_active)->toBeFalse();
 });
 
 test('can delete a faq', function () {
     $this->actingAs(User::factory()->create());
     $faq = Faq::factory()->create();
 
-    Livewire::test('pages::faqs.index')
+    Livewire::test(App\Livewire\Actions\Faq::class)
         ->call('confirmDelete', $faq->id)
         ->call('delete');
 
@@ -69,7 +81,7 @@ test('can reorder faqs with move up', function () {
     $first = Faq::factory()->create(['order' => 1]);
     $second = Faq::factory()->create(['order' => 2]);
 
-    Livewire::test('pages::faqs.index')->call('moveUp', $second->id);
+    Livewire::test(App\Livewire\Actions\Faq::class)->call('moveUp', $second->id);
 
     expect($second->fresh()->order)->toBe(1)
         ->and($first->fresh()->order)->toBe(2);

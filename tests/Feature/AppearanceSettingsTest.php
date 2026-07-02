@@ -28,7 +28,7 @@ test('head partial seeds localStorage script with user appearance on dashboard',
     $user = User::factory()->create(['appearance' => 'dark']);
 
     $this->actingAs($user)
-        ->get('/dashboard')
+        ->get(route('dashboard'))
         ->assertSee('flux.appearance', false)
         ->assertSee('"dark"', false);
 });
@@ -37,6 +37,6 @@ test('head partial removes localStorage entry for system appearance', function (
     $user = User::factory()->create(['appearance' => 'system']);
 
     $this->actingAs($user)
-        ->get('/dashboard')
+        ->get(route('dashboard'))
         ->assertSee('localStorage.removeItem', false);
 });

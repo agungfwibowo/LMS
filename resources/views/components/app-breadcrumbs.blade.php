@@ -19,6 +19,27 @@
             ['label' => 'Berita', 'href' => route('posts.index')],
             ['label' => 'Tags'],
         ],
+        request()->routeIs('pelatihan.create') => [
+            ['label' => 'Pelatihan', 'href' => route('pelatihan.index')],
+            ['label' => 'Tambah Pelatihan'],
+        ],
+        request()->routeIs('pelatihan.edit') => [
+            ['label' => 'Pelatihan', 'href' => route('pelatihan.index')],
+            ['label' => 'Edit Pelatihan'],
+        ],
+        request()->routeIs('pelatihan.*') => [
+            ['label' => 'Pelatihan'],
+        ],
+        request()->routeIs('pelatihan-categories.*') => [
+            ['label' => 'Pelatihan', 'href' => route('pelatihan.index')],
+            ['label' => 'Kategori'],
+        ],
+        request()->routeIs('faqs.*') => [
+            ['label' => 'FAQ'],
+        ],
+        request()->routeIs('testimonials.*') => [
+            ['label' => 'Testimoni'],
+        ],
         request()->routeIs('profile.*'), request()->routeIs('settings.*') => [
             ['label' => 'Pengaturan'],
         ],

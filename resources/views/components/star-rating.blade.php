@@ -16,12 +16,12 @@
             $fill = $rem >= 1 ? 100 : ($rem >= 0.5 ? 50 : 0);
         @endphp
         <span class="relative inline-block {{ $sizeClass }}">
-            <svg class="absolute inset-0 {{ $sizeClass }} text-zinc-200" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="absolute inset-0 {{ $sizeClass }} text-zinc-200/80 dark:text-zinc-600/90" fill="currentColor" viewBox="0 0 20 20">
                 <path d="{{ $path }}"/>
             </svg>
             @if ($fill > 0)
                 <span class="absolute inset-0 overflow-hidden" style="width: {{ $fill }}%">
-                    <svg class="{{ $sizeClass }} text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="{{ $sizeClass }} text-lime" fill="currentColor" viewBox="0 0 20 20">
                         <path d="{{ $path }}"/>
                     </svg>
                 </span>
@@ -30,7 +30,7 @@
     @endfor
 
     @if ($showValue)
-        <span class="ml-1.5 text-xs font-semibold tabular-nums text-amber-500">
+        <span class="ml-1.5 text-xs font-semibold tabular-nums text-brand-700 dark:text-lime">
             {{ number_format($rating, 1) }}
         </span>
     @endif

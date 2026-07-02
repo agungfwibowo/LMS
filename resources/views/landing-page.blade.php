@@ -1,17 +1,19 @@
 @php
     use App\Enums\PostStatus;
     use App\Models\Faq;
+    use App\Models\Pelatihan;
+    use App\Models\PelatihanCategory;
     use App\Models\Post;
     use App\Models\Testimonial;
 
-    $kategori = [
-        ['icon' => '🩺', 'bg' => 'bg-brand-50', 'title' => 'Keperawatan & Klinis',  'count' => 28, 'description' => 'Asuhan keperawatan, keselamatan pasien, dan kompetensi klinis lanjutan.'],
-        ['icon' => '📋', 'bg' => 'bg-lime-50',  'title' => 'Manajemen RS',           'count' => 18, 'description' => 'Tata kelola, mutu pelayanan, dan kepemimpinan unit kerja.'],
-        ['icon' => '🧑‍💼', 'bg' => 'bg-brand-50','title' => 'Administrasi & SDM',   'count' => 22, 'description' => 'Pelayanan publik, kearsipan, dan pengembangan kepegawaian.'],
-        ['icon' => '🦺', 'bg' => 'bg-lime-50',  'title' => 'K3 Rumah Sakit',         'count' => 15, 'description' => 'Keselamatan kerja, kewaspadaan bencana, dan pengendalian infeksi.'],
-        ['icon' => '💻', 'bg' => 'bg-brand-50', 'title' => 'Teknologi Informasi',    'count' => 12, 'description' => 'Rekam medis elektronik, SIMRS, dan literasi digital.'],
-        ['icon' => '🤝', 'bg' => 'bg-lime-50',  'title' => 'Pelayanan Prima',        'count' => 19, 'description' => 'Komunikasi efektif, etika pelayanan, dan kepuasan pasien.'],
-    ];
+    $modeLabels = ['offline' => 'Luring', 'online' => 'Daring', 'hybrid' => 'Hybrid'];
+
+    $kategori = PelatihanCategory::withCount(['pelatihans' => fn ($query) => $query->active()->published()])
+        ->get()
+        ->filter(fn ($category) => $category->pelatihans_count > 0)
+        ->sortByDesc('pelatihans_count')
+        ->take(6)
+        ->values();
 
     $alur = [
         ['title' => 'Buat Akun',        'description' => 'Daftar dengan NIP pegawai atau data diri untuk peserta eksternal.'],
@@ -20,12 +22,13 @@
         ['title' => 'Dapatkan Sertifikat', 'description' => 'Selesaikan evaluasi dan unduh sertifikat digital resmi.'],
     ];
 
-    $jadwal = [
-        ['title' => 'Pelatihan Keselamatan Pasien (Patient Safety)', 'category' => 'Keperawatan', 'day' => '08', 'month' => 'Jul', 'mode' => 'Luring · Aula Diklat',  'quota' => 'Sisa 12 kuota', 'status' => 'Dibuka'],
-        ['title' => 'Manajemen Mutu Pelayanan Rumah Sakit',          'category' => 'Manajemen',   'day' => '15', 'month' => 'Jul', 'mode' => 'Daring · Zoom',         'quota' => 'Sisa 40 kuota', 'status' => 'Dibuka'],
-        ['title' => 'Pencegahan & Pengendalian Infeksi (PPI)',        'category' => 'K3RS',        'day' => '22', 'month' => 'Jul', 'mode' => 'Luring · Gedung A',     'quota' => 'Sisa 8 kuota',  'status' => 'Hampir Penuh'],
-        ['title' => 'Pelayanan Publik & Komunikasi Efektif',          'category' => 'Administrasi','day' => '05', 'month' => 'Agu', 'mode' => 'Daring · LMS',          'quota' => 'Sisa 60 kuota', 'status' => 'Dibuka'],
-    ];
+    $jadwal = Pelatihan::with('category')
+        ->active()
+        ->published()
+        ->where('start_date', '>=', now())
+        ->orderBy('start_date')
+        ->limit(4)
+        ->get();
 
     $testimoni = Testimonial::active()->latest()->get();
 
@@ -159,17 +162,21 @@
         </div>
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            @foreach ($kategori as $item)
+            @forelse ($kategori as $item)
                 <div data-reveal style="transition-delay:{{ $loop->index * 80 }}ms" class="flex">
                     <a href="#jadwal"
                        class="group flex w-full flex-col rounded-[18px] border border-zinc-200 bg-white p-6.5 transition-all hover:-translate-y-1 hover:shadow-[0_18px_40px_-22px_rgba(14,79,77,0.45)] dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
-                        <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] text-2xl {{ $item['bg'] }}">{{ $item['icon'] }}</div>
-                        <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item['title'] }}</h3>
-                        <p class="mt-2 flex-1 text-[14.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">{{ $item['description'] }}</p>
-                        <div class="mt-4 text-[13px] font-semibold text-brand-600">{{ $item['count'] }} modul</div>
+                        <div class="mb-[18px] flex size-[50px] items-center justify-center rounded-[13px] {{ $loop->even ? 'bg-lime-50' : 'bg-brand-50' }}">
+                            <flux:icon :name="$item->icon?->value ?? 'academic-cap'" class="size-6 text-brand-700" />
+                        </div>
+                        <h3 class="font-heading text-[19px] font-bold text-brand-950 dark:text-white">{{ $item->name }}</h3>
+                        <p class="mt-2 flex-1 text-[14.5px] leading-relaxed text-zinc-500 dark:text-zinc-400">{{ $item->description ?: 'Pelatihan untuk pengembangan kompetensi terkait '.$item->name.'.' }}</p>
+                        <div class="mt-4 text-[13px] font-semibold text-brand-600">{{ $item->pelatihans_count }} pelatihan</div>
                     </a>
                 </div>
-            @endforeach
+            @empty
+                <p class="col-span-3 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada kategori pelatihan.</p>
+            @endforelse
         </div>
     </section>
 
@@ -202,21 +209,23 @@
                 :center="false"
                 eyebrow="Jadwal Mendatang"
                 title="Pelatihan yang akan dibuka" />
-            <a href="#" class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Kalender penuh →</a>
+            <a href="{{ route('kalender.index') }}" wire:navigate class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Kalender penuh →</a>
         </div>
 
         <div class="flex flex-col gap-3.5">
-            @foreach ($jadwal as $sesi)
+            @forelse ($jadwal as $sesi)
                 <x-landing.schedule-item
-                    :title="$sesi['title']"
-                    :category="$sesi['category']"
-                    :day="$sesi['day']"
-                    :month="$sesi['month']"
-                    :mode="$sesi['mode']"
-                    :quota="$sesi['quota']"
-                    :status="$sesi['status']"
+                    :title="$sesi->title"
+                    :category="$sesi->category?->name ?? 'Umum'"
+                    :day="$sesi->start_date->format('d')"
+                    :month="$sesi->start_date->translatedFormat('M')"
+                    :mode="$modeLabels[$sesi->mode].($sesi->location ? ' · '.$sesi->location : '')"
+                    :quota="$sesi->quota ? $sesi->quota.' kuota tersedia' : null"
+                    :status="$sesi->quota === 0 ? 'Penuh' : 'Dibuka'"
                     data-reveal :style="'transition-delay:'.($loop->index * 80).'ms'" />
-            @endforeach
+            @empty
+                <p class="py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">Belum ada jadwal pelatihan mendatang.</p>
+            @endforelse
         </div>
     </section>
 
@@ -317,7 +326,7 @@
             <a href="{{ route('berita.index') }}" class="shrink-0 text-[14.5px] font-bold text-brand-900 transition-colors hover:opacity-80 dark:text-teal-400">Semua berita →</a>
         </div>
 
-        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-5 lg:grid-cols-3">
             @forelse ($berita as $post)
                 <div data-reveal style="transition-delay:{{ $loop->index * 100 }}ms" class="flex">
                     <x-landing.news-card
@@ -356,7 +365,7 @@
     </section>
 
     {{-- ============ CTA BAND ============ --}}
-    <section class="mx-auto bg-brand-50 px-4 py-[72px] sm:px-6 lg:px-8">
+    <section class="mx-auto px-4 py-[72px] sm:px-6 lg:px-8">
         <div class="relative flex flex-wrap max-w-[1216px] m-auto items-center justify-between gap-10 overflow-hidden rounded-3xl bg-brand-900 px-14 py-14" data-reveal>
             {{-- Decorative circle --}}
             <div class="pointer-events-none absolute -right-10 -top-10 size-60 rounded-full bg-lime/16"></div>

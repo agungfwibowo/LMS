@@ -27,6 +27,7 @@ class UpdatePost
         };
 
         $post->update([
+            'author_id' => $input['author_id'],
             'title' => $input['title'],
             'slug' => $input['slug'],
             'content' => $input['content'],

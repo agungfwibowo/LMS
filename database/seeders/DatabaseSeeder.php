@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             FaqSeeder::class,
             TestimonialSeeder::class,
+            PelatihanCategorySeeder::class,
+            PelatihanSeeder::class,
         ]);
     }
 }

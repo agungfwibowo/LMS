@@ -199,4 +199,122 @@ document.addEventListener('alpine:init', () => {
             window.Alpine.navigate(url)
         },
     }))
+
+    // Guard for MODAL forms (add/edit). Prompts before discarding unsaved changes
+    // when the modal is closed or the page is reloaded / navigated away from.
+    //
+    // Usage: x-data="formGuard({ prop: 'showForm', modal: 'category-form', confirm: 'confirm-leave' })"
+    //   prop    - Livewire boolean property that controls the modal's open state
+    //   modal   - Flux modal name of the form modal
+    //   confirm - Flux modal name of the confirmation dialog (see <x-modal.confirm-leave>)
+    window.Alpine.data('formGuard', (config = {}) => ({
+        prop: config.prop || 'showForm',
+        modalName: config.modal,
+        confirmName: config.confirm || 'confirm-leave',
+        isDirty: false,
+        submitting: false,
+
+        init() {
+            const self = this
+
+            // Fresh form population by Livewire can fire input events, so clear the
+            // dirty flag on the next tick whenever the modal transitions to open.
+            this.$wire.$watch(this.prop, (open) => {
+                if (open) {
+                    self.$nextTick(() => {
+                        self.isDirty = false
+                        self.submitting = false
+                    })
+                }
+            })
+
+            this._onBeforeUnload = (e) => {
+                if (!self.isGuarding()) {
+                    return
+                }
+                e.preventDefault()
+                e.returnValue = ''
+            }
+
+            this._onNavigate = (e) => {
+                if (!self.isGuarding()) {
+                    return
+                }
+                e.preventDefault()
+                self.attemptClose()
+            }
+
+            window.addEventListener('beforeunload', this._onBeforeUnload)
+            document.addEventListener('alpine:navigate', this._onNavigate)
+
+            // Route the modal's own Escape key and backdrop click through the guard so
+            // they close freely when the form is clean, but prompt when it is dirty.
+            // The Flux modal renders as a native <dialog data-modal="...">; its `cancel`
+            // event (fired on Escape) is cancelable, and backdrop clicks land on the
+            // dialog element itself. `:dismissible="false"` already disables Flux's own
+            // backdrop close, so we own both interactions here.
+            this._dialog = this.$el.querySelector(`dialog[data-modal="${this.modalName}"]`)
+
+            if (this._dialog) {
+                this._onCancel = (e) => {
+                    e.preventDefault()
+                    self.attemptClose()
+                }
+
+                this._onBackdropClick = (e) => {
+                    if (e.target === self._dialog) {
+                        self.attemptClose()
+                    }
+                }
+
+                this._dialog.addEventListener('cancel', this._onCancel)
+                this._dialog.addEventListener('click', this._onBackdropClick)
+            }
+        },
+
+        destroy() {
+            window.removeEventListener('beforeunload', this._onBeforeUnload)
+            document.removeEventListener('alpine:navigate', this._onNavigate)
+
+            if (this._dialog) {
+                this._dialog.removeEventListener('cancel', this._onCancel)
+                this._dialog.removeEventListener('click', this._onBackdropClick)
+            }
+        },
+
+        isGuarding() {
+            return this.$wire.get(this.prop) && this.isDirty && !this.submitting
+        },
+
+        markDirty() {
+            if (!this.$wire.get(this.prop)) {
+                return
+            }
+            this.isDirty = true
+            this.submitting = false
+        },
+
+        onSubmit() {
+            this.submitting = true
+        },
+
+        attemptClose() {
+            if (!this.isDirty) {
+                this.close()
+                return
+            }
+            this.$flux.modal(this.confirmName).show()
+        },
+
+        close() {
+            this.isDirty = false
+            this.submitting = false
+            this.$flux.modal(this.modalName).close()
+        },
+
+        confirmLeave() {
+            this.$flux.modal(this.confirmName).close()
+            this.close()
+        },
+    }))
 })

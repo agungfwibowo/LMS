@@ -1,9 +1,13 @@
 <?php
 
+use App\Actions\Posts\CopyPost;
+use App\Enums\PostStatus;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\User;
 use Flux\Flux;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
@@ -43,6 +47,95 @@ new #[Title('Berita')] class extends Component {
     public function categories()
     {
         return Category::orderBy('name')->get();
+    }
+
+    #[Computed]
+    public function authors()
+    {
+        return User::orderBy('name')->get();
+    }
+
+    // --- Quick Edit ---
+    public ?int $quickEditId = null;
+
+    public string $qeTitle = '';
+
+    public string $qeSlug = '';
+
+    public string $qeStatus = 'draft';
+
+    public ?int $qeAuthorId = null;
+
+    public array $qeCategories = [];
+
+    public string $qePublishedAt = '';
+
+    public function startQuickEdit(int $id): void
+    {
+        $post = Post::with('categories')->findOrFail($id);
+
+        $this->quickEditId = $post->id;
+        $this->qeTitle = $post->title;
+        $this->qeSlug = $post->slug;
+        $this->qeStatus = $post->status->value;
+        $this->qeAuthorId = $post->author_id;
+        $this->qeCategories = $post->categories->pluck('id')->map(fn ($id) => (string) $id)->toArray();
+        $this->qePublishedAt = $post->published_at?->format('Y-m-d\TH:i') ?? '';
+
+        $this->resetValidation();
+    }
+
+    public function cancelQuickEdit(): void
+    {
+        $this->reset(['quickEditId', 'qeTitle', 'qeSlug', 'qeStatus', 'qeAuthorId', 'qeCategories', 'qePublishedAt']);
+        $this->resetValidation();
+    }
+
+    public function saveQuickEdit(): void
+    {
+        if (! $this->quickEditId) {
+            return;
+        }
+
+        $validated = $this->validate([
+            'qeTitle' => ['required', 'string', 'max:255'],
+            'qeSlug' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug')->ignore($this->quickEditId)],
+            'qeStatus' => ['required', Rule::in(array_column(PostStatus::cases(), 'value'))],
+            'qeAuthorId' => ['required', 'integer', 'exists:users,id'],
+            'qeCategories' => ['nullable', 'array'],
+            'qeCategories.*' => ['integer', 'exists:categories,id'],
+            'qePublishedAt' => ['nullable', 'date'],
+        ]);
+
+        $post = Post::findOrFail($this->quickEditId);
+
+        $publishedAt = match (true) {
+            (bool) $validated['qePublishedAt'] => $validated['qePublishedAt'],
+            $validated['qeStatus'] === PostStatus::Published->value && ! $post->published_at => now(),
+            default => $post->published_at,
+        };
+
+        $post->update([
+            'title' => $validated['qeTitle'],
+            'slug' => $validated['qeSlug'],
+            'status' => $validated['qeStatus'],
+            'author_id' => $validated['qeAuthorId'],
+            'published_at' => $publishedAt,
+        ]);
+
+        $post->categories()->sync($validated['qeCategories']);
+
+        $this->cancelQuickEdit();
+        unset($this->posts);
+        Flux::toast(variant: 'success', text: 'Berita berhasil diperbarui.');
+    }
+
+    public function copy(int $id, CopyPost $copyPost): void
+    {
+        $post = Post::findOrFail($id);
+        $copy = $copyPost->handle($post);
+        unset($this->posts);
+        Flux::toast(variant: 'success', text: "Berita berhasil disalin sebagai \"{$copy->title}\".");
     }
 
     public ?int $deletingId = null;
@@ -121,6 +214,57 @@ new #[Title('Berita')] class extends Component {
             </flux:table.columns>
             <flux:table.rows>
                 @forelse ($this->posts as $post)
+                    @if ($quickEditId === $post->id)
+                    <flux:table.row :key="'qe-' . $post->id">
+                        <flux:table.cell colspan="6" class="!p-0">
+                            <form wire:submit="saveQuickEdit" class="space-y-4 bg-zinc-50 p-4 dark:bg-zinc-800/50">
+                                <div class="flex items-center gap-2 text-sm font-semibold text-zinc-700 dark:text-zinc-200">
+                                    <flux:icon.pencil-square class="size-4" />
+                                    Edit Cepat
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    <flux:input wire:model="qeTitle" label="Judul" />
+                                    <flux:input wire:model="qeSlug" label="Slug" />
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                                    <flux:select wire:model="qeStatus" label="Status">
+                                        @foreach (PostStatus::cases() as $s)
+                                            <flux:select.option value="{{ $s->value }}">{{ $s->label() }}</flux:select.option>
+                                        @endforeach
+                                    </flux:select>
+                                    <flux:select wire:model="qeAuthorId" label="Penulis">
+                                        @foreach ($this->authors as $author)
+                                            <flux:select.option value="{{ $author->id }}">{{ $author->name }}</flux:select.option>
+                                        @endforeach
+                                    </flux:select>
+                                    <flux:input wire:model="qePublishedAt" type="datetime-local" label="Tanggal Publikasi" />
+                                </div>
+
+                                @if ($this->categories->isNotEmpty())
+                                    <div>
+                                        <flux:label class="mb-2">Kategori</flux:label>
+                                        <div class="flex flex-wrap gap-x-4 gap-y-2">
+                                            @foreach ($this->categories as $category)
+                                                <flux:checkbox
+                                                    wire:model="qeCategories"
+                                                    :value="(string) $category->id"
+                                                    :label="$category->name"
+                                                />
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <div class="flex items-center gap-2 pt-1">
+                                    <flux:button type="submit" variant="primary" size="sm">Simpan</flux:button>
+                                    <flux:button type="button" wire:click="cancelQuickEdit" variant="ghost" size="sm">Batal</flux:button>
+                                </div>
+                            </form>
+                        </flux:table.cell>
+                    </flux:table.row>
+                    @else
                     <flux:table.row :key="$post->id">
                         <flux:table.cell>
                             <div class="flex items-center gap-3">
@@ -161,12 +305,26 @@ new #[Title('Berita')] class extends Component {
                                 </flux:link>
                                 </flux:tooltip>
                                 <flux:button
+                                    wire:click="startQuickEdit({{ $post->id }})"
+                                    size="sm"
+                                    variant="ghost"
+                                    icon="pencil-square"
+                                    tooltip="Edit Cepat"
+                                />
+                                <flux:button
                                     href="{{ route('posts.edit', $post) }}"
                                     wire:navigate
                                     size="sm"
                                     variant="ghost"
                                     icon="pencil"
-                                    tooltip="Edit"
+                                    tooltip="Edit Lengkap"
+                                />
+                                <flux:button
+                                    wire:click="copy({{ $post->id }})"
+                                    size="sm"
+                                    variant="ghost"
+                                    icon="document-duplicate"
+                                    tooltip="Salin"
                                 />
                                 <flux:button
                                     wire:click="confirmDelete({{ $post->id }})"
@@ -179,6 +337,7 @@ new #[Title('Berita')] class extends Component {
                             </div>
                         </flux:table.cell>
                     </flux:table.row>
+                    @endif
                 @empty
                     <flux:table.row>
                         <flux:table.cell colspan="6" class="py-12 text-center text-zinc-500">
@@ -193,9 +352,7 @@ new #[Title('Berita')] class extends Component {
             </flux:table.rows>
         </flux:table>
 
-        <div class="mt-2">
-            {{ $this->posts->links() }}
-        </div>
+        <flux:pagination :paginator="$this->posts" />
 
         <flux:modal name="confirm-delete-post" class="min-w-88">
             <div class="space-y-6">

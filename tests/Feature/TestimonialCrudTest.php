@@ -25,7 +25,7 @@ test('testimonial list is displayed', function () {
 test('can create a testimonial with initials', function () {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('openCreate')
         ->set('name', 'Rina Dewi')
         ->set('role', 'Perawat ICU')
@@ -43,7 +43,7 @@ test('can create a testimonial with initials', function () {
 test('can save testimonial with custom rating', function () {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('openCreate')
         ->set('name', 'Budi Santoso')
         ->set('role', 'Dokter')
@@ -63,7 +63,7 @@ test('rating is cast to float', function () {
 test('can create a testimonial with external photo url', function () {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('openCreate')
         ->set('name', 'Andi Saputra')
         ->set('role', 'Dokter Spesialis')
@@ -82,7 +82,7 @@ test('can create a testimonial with uploaded photo', function () {
 
     $file = UploadedFile::fake()->image('foto.jpg', 200, 200);
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('openCreate')
         ->set('name', 'Dewi Lestari')
         ->set('role', 'Bidan')
@@ -105,7 +105,7 @@ test('deleting a testimonial with uploaded photo removes the file', function () 
     Storage::disk('public')->put($path, 'fake-content');
     $testimonial = Testimonial::factory()->create(['photo' => $path]);
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('confirmDelete', $testimonial->id)
         ->call('delete');
 
@@ -113,11 +113,45 @@ test('deleting a testimonial with uploaded photo removes the file', function () 
     Storage::disk('public')->assertMissing($path);
 });
 
+test('can copy a testimonial with its uploaded photo', function () {
+    Storage::fake('public');
+    $this->actingAs(User::factory()->create());
+
+    $path = 'uploads/testimonials/foto.jpg';
+    Storage::disk('public')->put($path, 'fake-content');
+    $testimonial = Testimonial::factory()->create([
+        'name' => 'Budi Santoso',
+        'photo' => $path,
+        'is_active' => true,
+    ]);
+
+    Livewire::test(App\Livewire\Actions\Testimonial::class)->call('copy', $testimonial->id);
+
+    $copy = Testimonial::where('name', 'Budi Santoso (Salinan)')->first();
+    expect($copy)->not->toBeNull()
+        ->and($copy->is_active)->toBeFalse()
+        ->and($copy->photo)->not->toBe($path);
+    Storage::disk('public')->assertExists($copy->photo);
+});
+
+test('can copy a testimonial with an external photo url', function () {
+    $this->actingAs(User::factory()->create());
+    $testimonial = Testimonial::factory()->create([
+        'name' => 'Andi Saputra',
+        'photo' => 'https://example.com/photo.jpg',
+    ]);
+
+    Livewire::test(App\Livewire\Actions\Testimonial::class)->call('copy', $testimonial->id);
+
+    $copy = Testimonial::where('name', 'Andi Saputra (Salinan)')->first();
+    expect($copy->photo)->toBe('https://example.com/photo.jpg');
+});
+
 test('can edit an existing testimonial', function () {
     $this->actingAs(User::factory()->create());
     $testimonial = Testimonial::factory()->create(['name' => 'Nama Lama']);
 
-    Livewire::test('pages::testimonials.index')
+    Livewire::test(App\Livewire\Actions\Testimonial::class)
         ->call('edit', $testimonial->id)
         ->set('name', 'Nama Baru')
         ->call('save');
@@ -129,7 +163,7 @@ test('can toggle testimonial active status', function () {
     $this->actingAs(User::factory()->create());
     $testimonial = Testimonial::factory()->create(['is_active' => true]);
 
-    Livewire::test('pages::testimonials.index')->call('toggleActive', $testimonial->id);
+    Livewire::test(App\Livewire\Actions\Testimonial::class)->call('toggleActive', $testimonial->id);
 
     expect($testimonial->fresh()->is_active)->toBeFalse();
 });

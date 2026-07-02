@@ -6,6 +6,7 @@ use App\Enums\PostStatus;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +21,7 @@ new class extends Component {
 
     public ?Post $post = null;
 
+    public ?int $authorId = null;
     public string $title = '';
     public string $slug = '';
     public string $content = '';
@@ -37,6 +39,7 @@ new class extends Component {
     {
         if ($post) {
             $this->post = $post;
+            $this->authorId = $post->author_id;
             $this->title = $post->title;
             $this->slug = $post->slug;
             $this->content = $post->content ?? '';
@@ -46,7 +49,15 @@ new class extends Component {
             $this->publishedAt = $post->published_at?->format('Y-m-d\TH:i') ?? '';
             $this->selectedCategories = $post->categories->pluck('id')->map(fn ($id) => (string) $id)->toArray();
             $this->tags = $post->tags->pluck('name')->toArray();
+        } else {
+            $this->authorId = Auth::id();
         }
+    }
+
+    #[Computed]
+    public function authors()
+    {
+        return User::orderBy('name')->get();
     }
 
     #[Computed]
@@ -115,6 +126,7 @@ new class extends Component {
     public function save(CreatePost $createPost, UpdatePost $updatePost): void
     {
         $this->validate([
+            'authorId' => ['required', 'integer', 'exists:users,id'],
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255', Rule::unique('posts', 'slug')->ignore($this->post?->id)],
             'content' => ['nullable', 'string'],
@@ -134,6 +146,7 @@ new class extends Component {
         }
 
         $input = [
+            'author_id' => $this->authorId,
             'title' => $this->title,
             'slug' => $this->slug,
             'content' => $this->content,
@@ -150,7 +163,7 @@ new class extends Component {
             $updatePost->handle($this->post, $input);
             Flux::toast(variant: 'success', text: 'Berita berhasil diperbarui.');
         } else {
-            $post = $createPost->handle($input, Auth::id());
+            $post = $createPost->handle($input, $this->authorId);
             Flux::toast(variant: 'success', text: 'Berita berhasil disimpan.');
             $this->post = $post;
         }
@@ -237,6 +250,18 @@ new class extends Component {
 
         {{-- Sidebar options --}}
         <div class="space-y-5">
+            <flux:fieldset>
+                <flux:legend>Penulis</flux:legend>
+                <flux:select wire:model.live="authorId" label="Penulis Berita">
+                    @foreach ($this->authors as $author)
+                        <flux:select.option value="{{ $author->id }}">{{ $author->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                @error('authorId')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
+            </flux:fieldset>
+
             <flux:fieldset>
                 <flux:legend>Status & Publikasi</flux:legend>
                 <flux:select wire:model.live="status" label="Status">
@@ -395,12 +420,15 @@ new class extends Component {
                         {{ $title ?: 'Judul Berita' }}
                     </h1>
 
+                    @php
+                        $previewAuthor = $this->authors->firstWhere('id', $authorId) ?? Auth::user();
+                    @endphp
                     <div class="mt-5 flex flex-wrap items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
                         <span class="flex items-center gap-1.5">
                             <span class="flex size-6 items-center justify-center rounded-full bg-brand-600 text-xs font-semibold text-white">
-                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                                {{ strtoupper(substr($previewAuthor->name, 0, 1)) }}
                             </span>
-                            {{ Auth::user()->name }}
+                            {{ $previewAuthor->name }}
                         </span>
                         <span class="hidden sm:inline">·</span>
                         <span class="flex items-center gap-1.5">
