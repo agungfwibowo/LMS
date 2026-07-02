@@ -56,7 +56,7 @@
                 </div>
 
                 <h1 class="font-heading font-extrabold leading-[1.06] tracking-[-0.03em] text-brand-950 dark:text-white" style="font-size:clamp(2.4rem,5vw,3.375rem)">
-                    Kembangkan kompetensi tenaga rumah sakit dalam satu sistem
+                    Kembangkan kompetensi tenaga rumah sakit dalam satu sistem SIMRS
                 </h1>
 
                 <p class="mt-6 max-w-[520px] text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
