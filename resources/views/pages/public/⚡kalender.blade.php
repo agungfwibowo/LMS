@@ -183,15 +183,19 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
             <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
                 <button
                     wire:click="$set('category', '')"
-                    class="shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors {{ $category === '' ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
+                    wire:loading.attr="disabled"
+                    class="group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors disabled:opacity-70 {{ $category === '' ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
                 >
+                    <flux:icon.loading class="hidden size-3.5 group-data-loading:block" />
                     Semua
                 </button>
                 @foreach ($this->categories as $cat)
                     <button
                         wire:click="$set('category', '{{ $cat->slug }}')"
-                        class="shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors {{ $category === $cat->slug ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
+                        wire:loading.attr="disabled"
+                        class="group inline-flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors disabled:opacity-70 {{ $category === $cat->slug ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
                     >
+                        <flux:icon.loading class="hidden size-3.5 group-data-loading:block" />
                         {{ $cat->name }}
                     </button>
                 @endforeach
@@ -201,7 +205,13 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
 </section>
 
 {{-- ================= TAB: KALENDER / AGENDA ================= --}}
-<section class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+{{-- Perpindahan tab murni client-side (Alpine) supaya instan tanpa round-trip ke server. --}}
+{{-- URL ?view= tetap disinkronkan lewat replaceState agar reload/bookmark konsisten. --}}
+<section
+    class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8"
+    x-data="{ view: @js($view) }"
+    x-init="$watch('view', v => { const u = new URL(location); u.searchParams.set('view', v); history.replaceState({}, '', u); })"
+>
     <div
         role="tablist"
         aria-label="Tampilan kalender"
@@ -210,32 +220,29 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
         <button
             type="button"
             role="tab"
-            aria-selected="{{ $view === 'kalender' ? 'true' : 'false' }}"
-            wire:click="$set('view', 'kalender')"
-            wire:loading.attr="disabled"
-            class="group inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'kalender' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+            :aria-selected="view === 'kalender'"
+            @click="view = 'kalender'"
+            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors"
+            :class="view === 'kalender' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400'"
         >
-            <flux:icon name="calendar-days" class="size-4 group-data-loading:hidden" />
-            <flux:icon.loading class="size-4 hidden group-data-loading:block" />
+            <flux:icon name="calendar-days" class="size-4" />
             Kalender
         </button>
         <button
             type="button"
             role="tab"
-            aria-selected="{{ $view === 'agenda' ? 'true' : 'false' }}"
-            wire:click="$set('view', 'agenda')"
-            wire:loading.attr="disabled"
-            class="group inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'agenda' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+            :aria-selected="view === 'agenda'"
+            @click="view = 'agenda'"
+            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors"
+            :class="view === 'agenda' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400'"
         >
-            <flux:icon name="list-bullet" class="size-4 group-data-loading:hidden" />
-            <flux:icon.loading class="size-4 hidden group-data-loading:block" />
+            <flux:icon name="list-bullet" class="size-4" />
             Agenda
         </button>
     </div>
 
-    @if ($view === 'kalender')
     {{-- ================= PANEL: GRID KALENDER ================= --}}
-    <div role="tabpanel">
+    <div role="tabpanel" x-show="view === 'kalender'" x-cloak>
     <div
         x-data="{ shown: false }" x-intersect.once="shown = true"
         data-reveal x-bind:class="shown && 'revealed'"
@@ -293,9 +300,9 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
         </div>
     </div>
     </div>
-    @else
+
     {{-- ================= PANEL: AGENDA BULAN INI ================= --}}
-    <div role="tabpanel">
+    <div role="tabpanel" x-show="view === 'agenda'" x-cloak>
     <div x-data="{ shown: false }" x-intersect.once="shown = true">
         <h3 data-reveal x-bind:class="shown && 'revealed'" class="mb-5 font-heading text-xl font-bold text-brand-950 dark:text-white">
             Agenda {{ $this->monthLabel }}
@@ -328,7 +335,6 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
         </div>
     </div>
     </div>
-    @endif
 </section>
 
 {{-- ================= MODAL DETAIL HARI ================= --}}
