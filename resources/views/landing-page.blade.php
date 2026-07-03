@@ -66,31 +66,31 @@
                 <div class="mt-8 flex flex-wrap gap-3">
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
-                           class="inline-flex items-center gap-2 rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 shadow-[0_4px_14px_rgba(160,176,20,0.35)] transition-opacity hover:opacity-90">
+                           class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 shadow-[0_4px_14px_rgba(160,176,20,0.35)] transition-opacity hover:opacity-90 sm:w-auto">
                             Mulai Pelatihan
                         </a>
                     @endif
                     <a href="#katalog"
-                       class="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-7 py-3.75 text-[15.5px] font-bold text-brand-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-teal-400 dark:hover:bg-zinc-700">
+                       class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-zinc-200 bg-white px-7 py-3.75 text-[15.5px] font-bold text-brand-900 transition-colors hover:bg-zinc-50 sm:w-auto dark:border-zinc-700 dark:bg-zinc-800 dark:text-teal-400 dark:hover:bg-zinc-700">
                         Lihat Katalog
                     </a>
                 </div>
 
                 {{-- Stats --}}
-                <div class="mt-12 flex flex-wrap items-center gap-0">
-                    <div class="pr-10">
-                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="120"/>+</div>
-                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Modul pelatihan</div>
+                <div class="mt-8 grid grid-cols-3 gap-2 sm:mt-12 sm:flex sm:flex-wrap sm:items-center sm:gap-0">
+                    <div class="text-center sm:pr-10 sm:text-left">
+                        <div class="font-heading font-extrabold flex justify-center text-lg leading-none text-brand-800 sm:justify-start sm:text-[30px] dark:text-teal-400"><x-landing.counter value="120"/>+</div>
+                        <div class="mt-1 text-[10.5px] leading-tight font-medium text-zinc-500 sm:text-[13.5px] dark:text-zinc-400">Modul pelatihan</div>
                     </div>
-                    <div class="mx-0 h-10 w-px bg-zinc-200 dark:bg-zinc-700"></div>
-                    <div class="px-10">
-                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="8500"/>+</div>
-                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Peserta aktif</div>
+                    <div class="hidden sm:mx-0 sm:block sm:h-10 sm:w-px sm:bg-zinc-200 sm:dark:bg-zinc-700"></div>
+                    <div class="border-x border-zinc-200 text-center sm:border-0 sm:px-10 sm:text-left dark:border-zinc-700">
+                        <div class="font-heading font-extrabold flex justify-center text-lg leading-none text-brand-800 sm:justify-start sm:text-[30px] dark:text-teal-400"><x-landing.counter value="8500"/>+</div>
+                        <div class="mt-1 text-[10.5px] leading-tight font-medium text-zinc-500 sm:text-[13.5px] dark:text-zinc-400">Peserta aktif</div>
                     </div>
-                    <div class="mx-0 h-10 w-px bg-zinc-200 dark:bg-zinc-700"></div>
-                    <div class="pl-10">
-                        <div class="font-heading font-extrabold flex text-[30px] leading-none text-brand-800 dark:text-teal-400"><x-landing.counter value="96"/>%</div>
-                        <div class="mt-1 text-[13.5px] font-medium text-zinc-500 dark:text-zinc-400">Tingkat kelulusan</div>
+                    <div class="hidden sm:mx-0 sm:block sm:h-10 sm:w-px sm:bg-zinc-200 sm:dark:bg-zinc-700"></div>
+                    <div class="text-center sm:pl-10 sm:text-left">
+                        <div class="font-heading font-extrabold flex justify-center text-lg leading-none text-brand-800 sm:justify-start sm:text-[30px] dark:text-teal-400"><x-landing.counter value="96"/>%</div>
+                        <div class="mt-1 text-[10.5px] leading-tight font-medium text-zinc-500 sm:text-[13.5px] dark:text-zinc-400">Tingkat kelulusan</div>
                     </div>
                 </div>
             </div>
@@ -381,19 +381,19 @@
 
             @auth
                 <a href="{{ route('dashboard') }}"
-                class="inline-flex items-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90">
+                class="inline-flex w-full items-center justify-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90 sm:w-auto sm:justify-start">
                     Ambil Pelatihan
                 </a>
             @else
-            <div class="relative flex flex-wrap gap-3.5">
+            <div class="relative flex w-full flex-wrap gap-3.5 sm:w-auto">
                 @if (Route::has('register'))
                     <a href="{{ route('register') }}"
-                       class="inline-flex items-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90">
+                       class="inline-flex w-full items-center justify-center rounded-xl bg-lime px-7 py-3.75 text-[15.5px] font-bold text-brand-950 transition-opacity hover:opacity-90 sm:w-auto sm:justify-start">
                         Daftar Sekarang
                     </a>
                 @endif
                 <a href="{{ route('login') }}"
-                   class="inline-flex items-center rounded-xl border border-white/30 px-7 py-3.75 text-[15.5px] font-bold text-white transition-colors hover:bg-white/10">
+                   class="inline-flex w-full items-center justify-center rounded-xl border border-white/30 px-7 py-3.75 text-[15.5px] font-bold text-white transition-colors hover:bg-white/10 sm:w-auto sm:justify-start">
                     Masuk
                 </a>
             </div>
