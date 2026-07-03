@@ -212,9 +212,11 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
             role="tab"
             aria-selected="{{ $view === 'kalender' ? 'true' : 'false' }}"
             wire:click="$set('view', 'kalender')"
-            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'kalender' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+            wire:loading.attr="disabled"
+            class="group inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'kalender' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
         >
-            <flux:icon name="calendar-days" class="size-4" />
+            <flux:icon name="calendar-days" class="size-4 group-data-loading:hidden" />
+            <flux:icon.loading class="size-4 hidden group-data-loading:block" />
             Kalender
         </button>
         <button
@@ -222,9 +224,11 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
             role="tab"
             aria-selected="{{ $view === 'agenda' ? 'true' : 'false' }}"
             wire:click="$set('view', 'agenda')"
-            class="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'agenda' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
+            wire:loading.attr="disabled"
+            class="group inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold transition-colors {{ $view === 'agenda' ? 'bg-white text-brand-700 shadow-sm dark:bg-zinc-800 dark:text-teal-300' : 'text-zinc-500 hover:text-brand-600 dark:text-zinc-400 dark:hover:text-teal-400' }}"
         >
-            <flux:icon name="list-bullet" class="size-4" />
+            <flux:icon name="list-bullet" class="size-4 group-data-loading:hidden" />
+            <flux:icon.loading class="size-4 hidden group-data-loading:block" />
             Agenda
         </button>
     </div>
