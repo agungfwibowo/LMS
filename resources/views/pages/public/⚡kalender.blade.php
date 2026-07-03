@@ -184,17 +184,19 @@ new #[Layout('layouts.guest'), Title('Kalender Pelatihan')] class extends Compon
                 <button
                     wire:click="$set('category', '')"
                     wire:loading.attr="disabled"
-                    class="shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-[color,opacity] data-loading:opacity-80 {{ $category === '' ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
+                    class="group relative shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors {{ $category === '' ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
                 >
-                    Semua
+                    <span class="transition-opacity group-data-loading:opacity-30">Semua</span>
+                    <flux:icon.loading class="absolute left-1/2 top-1/2 hidden size-4 -translate-x-1/2 -translate-y-1/2 group-data-loading:block" />
                 </button>
                 @foreach ($this->categories as $cat)
                     <button
                         wire:click="$set('category', '{{ $cat->slug }}')"
                         wire:loading.attr="disabled"
-                        class="shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-[color,opacity] data-loading:opacity-80 {{ $category === $cat->slug ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
+                        class="group relative shrink-0 rounded-full border px-4 py-1.5 text-xs font-semibold transition-colors {{ $category === $cat->slug ? 'border-brand-600 bg-brand-600 text-white' : 'border-zinc-300 bg-white text-zinc-600 hover:border-brand-400 hover:text-brand-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300' }}"
                     >
-                        {{ $cat->name }}
+                        <span class="transition-opacity group-data-loading:opacity-30">{{ $cat->name }}</span>
+                        <flux:icon.loading class="absolute left-1/2 top-1/2 hidden size-4 -translate-x-1/2 -translate-y-1/2 group-data-loading:block" />
                     </button>
                 @endforeach
             </div>
