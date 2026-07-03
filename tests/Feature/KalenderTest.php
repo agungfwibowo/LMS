@@ -100,6 +100,23 @@ test('can filter the calendar by category', function () {
         ->assertDontSee('Pelatihan Kategori B');
 });
 
-test('shows empty state when no pelatihan is scheduled this month', function () {
-    $this->get(route('kalender.index'))->assertSee('Belum ada pelatihan dijadwalkan di bulan ini.');
+test('defaults to the calendar tab and can switch to the agenda tab', function () {
+    Pelatihan::factory()->create([
+        'title' => 'Pelatihan Tab Agenda',
+        'status' => PelatihanStatus::Published,
+        'is_active' => true,
+        'start_date' => now()->startOfMonth()->addDays(5),
+    ]);
+
+    Livewire::test('pages::public.kalender')
+        ->assertSet('view', 'kalender')
+        ->assertSee('Pelatihan Tab Agenda')
+        ->set('view', 'agenda')
+        ->assertSee('Pelatihan Tab Agenda');
+});
+
+test('shows empty state on the agenda tab when no pelatihan is scheduled this month', function () {
+    Livewire::test('pages::public.kalender')
+        ->set('view', 'agenda')
+        ->assertSee('Belum ada pelatihan dijadwalkan di bulan ini.');
 });
