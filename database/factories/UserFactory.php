@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -33,7 +34,41 @@ class UserFactory extends Factory
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
+            // Default admin agar test lama yang mengelola konten tetap berjalan;
+            // pendaftaran asli memakai default database ('peserta').
+            'role' => UserRole::Admin,
+            'approved_at' => now(),
         ];
+    }
+
+    /**
+     * Indicate that the user has not been approved by an admin yet.
+     */
+    public function unapproved(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'approved_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Admin,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a peserta (non-admin).
+     */
+    public function peserta(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Peserta,
+        ]);
     }
 
     /**

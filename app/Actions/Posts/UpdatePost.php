@@ -2,6 +2,7 @@
 
 namespace App\Actions\Posts;
 
+use App\Concerns\SanitizesHtml;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class UpdatePost
 {
+    use SanitizesHtml;
+
     public function handle(Post $post, array $input): Post
     {
         $imagePath = $input['existing_image'];
@@ -30,7 +33,7 @@ class UpdatePost
             'author_id' => $input['author_id'],
             'title' => $input['title'],
             'slug' => $input['slug'],
-            'content' => $input['content'],
+            'content' => $this->sanitizeHtml($input['content']),
             'excerpt' => $input['excerpt'],
             'featured_image' => $imagePath,
             'status' => $input['status'],

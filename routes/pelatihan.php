@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::livewire('/kalender', 'pages::public.kalender')->name('kalender.index');
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'approved', 'admin'])->prefix('admin')->group(function () {
     Route::livewire('pelatihan', Pelatihan::class)->name('pelatihan.index');
     Route::livewire('pelatihan/tambah', PelatihanForm::class)->name('pelatihan.create');
     Route::livewire('pelatihan/kategori', PelatihanCategory::class)->name('pelatihan-categories.index');

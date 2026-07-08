@@ -2,12 +2,15 @@
 
 namespace App\Actions\Posts;
 
+use App\Concerns\SanitizesHtml;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 
 class CreatePost
 {
+    use SanitizesHtml;
+
     public function handle(array $input, int $authorId): Post
     {
         $imagePath = $input['featured_image']?->store('posts', 'public');
@@ -16,7 +19,7 @@ class CreatePost
             'author_id' => $authorId,
             'title' => $input['title'],
             'slug' => $input['slug'],
-            'content' => $input['content'],
+            'content' => $this->sanitizeHtml($input['content']),
             'excerpt' => $input['excerpt'],
             'featured_image' => $imagePath,
             'status' => $input['status'],

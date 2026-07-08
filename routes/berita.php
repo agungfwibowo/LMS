@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::livewire('/berita', 'pages::public.berita')->name('berita.index');
 Route::livewire('/berita/{slug}', 'pages::public.berita-show')->name('berita.show');
 
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'approved', 'admin'])->prefix('admin')->group(function () {
     Route::post('berita/upload-gambar', function (Request $request) {
         $request->validate(['file' => ['required', 'image', 'max:5120']]);
         $path = $request->file('file')->store('uploads', 'public');

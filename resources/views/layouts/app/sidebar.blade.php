@@ -17,9 +17,17 @@
                     </flux:sidebar.item>
                 </flux:sidebar.group>
 
-                <x-sidebar.berita-nav />
-                <x-sidebar.pelatihan-nav />
-                <x-sidebar.konten-nav />
+                @if (auth()->user()->isAdmin())
+                    <x-sidebar.berita-nav />
+                    <x-sidebar.pelatihan-nav />
+                    <x-sidebar.konten-nav />
+
+                    <flux:sidebar.group :heading="__('Administrasi')" class="grid">
+                        <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
+                            {{ __('Pengguna') }}
+                        </flux:sidebar.item>
+                    </flux:sidebar.group>
+                @endif
             </flux:sidebar.nav>
 
             <flux:spacer />
