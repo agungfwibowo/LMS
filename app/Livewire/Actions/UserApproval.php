@@ -5,6 +5,7 @@ namespace App\Livewire\Actions;
 use App\Models\User;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -19,8 +20,11 @@ class UserApproval extends Component
 
     public string $deletingName = '';
 
+    /**
+     * @return LengthAwarePaginator<int, User>
+     */
     #[Computed]
-    public function users()
+    public function users(): LengthAwarePaginator
     {
         return User::orderByRaw('approved_at is null desc')
             ->orderBy('name')
